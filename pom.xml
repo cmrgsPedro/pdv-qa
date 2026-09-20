@@ -32,6 +32,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<mockito.version>3.12.4</mockito.version>
+		<byte-buddy.version>1.11.13</byte-buddy.version>
 	</properties>
 	<dependencies>
 		<dependency>
