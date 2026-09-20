@@ -1,5 +1,3 @@
-FROM openjdk:8-jdk-slim
-
-RUN apt-get update && apt-get install -y maven
+FROM maven:3.9.16-eclipse-temurin-8-noble
 
 WORKDIR /app
