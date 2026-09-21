@@ -112,7 +112,7 @@ target/site/jacoco/index.html
 
 ## Documentação da entrega
 
-- [Plano de Testes](https://docs.google.com/document/d/1eTk-quTCE7s7sz2MA6DzukG59YJlWnpV/edit?usp=sharing&ouid=103012691689036529213&rtpof=true&sd=true)
+- [Plano de Testes](https://docs.google.com/document/d/1UhuZOBFoVzsn5rlR_CHp07ZcGQoJGE8A_z19Ww1Lje4/edit?usp=sharing)
 - [Registro de uso de IA](docs/ai/AI-LOG.md)
 - [Pull requests do projeto](https://github.com/cmrgsPedro/pdv-qa/pulls?q=is%3Apr)
 - Apresentação: será adicionada ao repositório após a consolidação dos slides.
