@@ -35,6 +35,10 @@ import net.originmobi.pdv.model.CaixaLancamento;
 import net.originmobi.pdv.model.Usuario;
 import net.originmobi.pdv.repository.CaixaRepository;
 
+import static org.junit.Assert.assertNotNull;
+import java.util.NoSuchElementException;
+import org.mockito.ArgumentCaptor;
+
 public class CaixaServiceTest {
 
     @Mock private CaixaRepository caixas;
@@ -282,12 +286,60 @@ public class CaixaServiceTest {
         verify(caixas, times(2)).buscaCaixaTipo(eq(CaixaTipo.BANCO));
     }
 
+    // Novos Testes para Cobertura de Código e matar mutantes restantes
+    @Test
+    public void gravaDataDeCadastroAoAbrirCaixa() {
+        Caixa caixa = caixa(CaixaTipo.CAIXA, "", 0.0);
+        when(caixas.caixaAberto()).thenReturn(Optional.empty());
+
+        service.cadastro(caixa);
+
+        assertNotNull(caixa.getData_cadastro());
+    }
+
+    @Test
+    public void observacaoDoSaldoInicialDeCaixa() {
+        Caixa caixa = caixa(CaixaTipo.CAIXA, "", 20.0);
+        when(caixas.caixaAberto()).thenReturn(Optional.empty());
+
+        assertEquals("Abertura de caixa", observacaoDoLancamento(caixa));
+    }
+
+    @Test
+    public void observacaoDoSaldoInicialDeCofre() {
+        assertEquals("Abertura de cofre", observacaoDoLancamento(caixa(CaixaTipo.COFRE, "", 20.0)));
+    }
+
+    @Test
+    public void observacaoDoSaldoInicialDeBanco() {
+        Caixa caixa = caixa(CaixaTipo.BANCO, "", 20.0);
+        caixa.setAgencia("1");
+        caixa.setConta("2");
+
+        assertEquals("Abertura de banco", observacaoDoLancamento(caixa));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void fechaCaixaInexistenteLancaNoSuchElement() {
+        when(caixas.findById(99L)).thenReturn(Optional.empty());
+
+        service.fechaCaixa(99L, "correta");
+    }
+
+    // Métodos auxiliares para os testes, evitando repetição de código
     private Caixa caixa(CaixaTipo tipo, String descricao, Double abertura) {
         Caixa caixa = new Caixa();
         caixa.setTipo(tipo);
         caixa.setDescricao(descricao);
         caixa.setValor_abertura(abertura);
         return caixa;
+    }
+
+    private String observacaoDoLancamento(Caixa caixa) {
+        ArgumentCaptor<CaixaLancamento> captor = ArgumentCaptor.forClass(CaixaLancamento.class);
+        service.cadastro(caixa);
+        verify(lancamentos).lancamento(captor.capture());
+        return captor.getValue().getObservacao();
     }
 
     private void expect(String mensagem, ThrowingRunnable acao) {
