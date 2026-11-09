@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -47,17 +48,24 @@ public class CaixaServiceTest {
 
     @InjectMocks private CaixaService service;
 
+    private AutoCloseable closeable;
     private Usuario usuario;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken("gerente", "senha"));
         usuario = new Usuario();
         usuario.setCodigo(7L);
         usuario.setSenha(new BCryptPasswordEncoder(4).encode("correta"));
         when(usuarios.buscaUsuario("gerente")).thenReturn(usuario);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        SecurityContextHolder.clearContext();
+        closeable.close();
     }
 
     @Test
