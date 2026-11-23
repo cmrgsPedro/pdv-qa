@@ -1,6 +1,7 @@
 package net.originmobi.pdv.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -89,6 +90,22 @@ public class RecebimentoServiceTest {
 
         assertEquals("99", service.abrirRecebimento(1L, new String[] {"10", "11"}));
         verify(recebimentos).save(any(Recebimento.class));
+    }
+
+    @Test
+    public void abreRecebimentoQuandoIdsIguaisTemReferenciasDiferentes() {
+        Long clienteSelecionado = Long.valueOf(1000);
+        pessoa.setCodigo(Long.valueOf(1000));
+        assertNotSame(clienteSelecionado, pessoa.getCodigo());
+        when(parcelas.busca(10L)).thenReturn(parcela(10L, 30.0, 0, pessoa));
+        when(pessoas.buscaPessoa(clienteSelecionado)).thenReturn(Optional.of(pessoa));
+        doAnswer(invocation -> {
+            Recebimento salvo = invocation.getArgument(0);
+            salvo.setCodigo(99L);
+            return salvo;
+        }).when(recebimentos).save(any(Recebimento.class));
+
+        assertEquals("99", service.abrirRecebimento(clienteSelecionado, new String[] {"10"}));
     }
 
     @Test

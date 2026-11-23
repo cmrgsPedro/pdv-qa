@@ -2,9 +2,9 @@ package net.originmobi.pdv.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,32 +30,30 @@ import net.originmobi.pdv.utilitarios.DataAtual;
 @Service
 public class RecebimentoService {
 
-	@Autowired
-	private RecebimentoRepository recebimentos;
+	private final RecebimentoRepository recebimentos;
+	private final PessoaService pessoas;
+	private final RecebimentoParcelaService receParcelas;
+	private final ParcelaService parcelas;
+	private final CaixaService caixas;
+	private final UsuarioService usuarios;
+	private final CaixaLancamentoService lancamentos;
+	private final TituloService titulos;
+	private final CartaoLancamentoService cartaoLancamentos;
 
-	@Autowired
-	private PessoaService pessoas;
-
-	@Autowired
-	private RecebimentoParcelaService receParcelas;
-
-	@Autowired
-	private ParcelaService parcelas;
-
-	@Autowired
-	private CaixaService caixas;
-
-	@Autowired
-	private UsuarioService usuarios;
-
-	@Autowired
-	private CaixaLancamentoService lancamentos;
-
-	@Autowired
-	private TituloService titulos;
-
-	@Autowired
-	private CartaoLancamentoService cartaoLancamentos;
+	public RecebimentoService(RecebimentoRepository recebimentos, PessoaService pessoas,
+			RecebimentoParcelaService receParcelas, ParcelaService parcelas, CaixaService caixas,
+			UsuarioService usuarios, CaixaLancamentoService lancamentos, TituloService titulos,
+			CartaoLancamentoService cartaoLancamentos) {
+		this.recebimentos = recebimentos;
+		this.pessoas = pessoas;
+		this.receParcelas = receParcelas;
+		this.parcelas = parcelas;
+		this.caixas = caixas;
+		this.usuarios = usuarios;
+		this.lancamentos = lancamentos;
+		this.titulos = titulos;
+		this.cartaoLancamentos = cartaoLancamentos;
+	}
 
 	public String abrirRecebimento(Long codpes, String[] arrayParcelas) {
 		List<Parcela> lista = new ArrayList<>();
@@ -69,7 +67,7 @@ public class RecebimentoService {
 			if (parcela.getQuitado() == 1)
 				throw new RuntimeException("Parcela " + parcela.getCodigo() + " já esta quitada, verifique.");
 
-			if (parcela.getReceber().getPessoa().getCodigo() != codpes)
+			if (!Objects.equals(parcela.getReceber().getPessoa().getCodigo(), codpes))
 				throw new RuntimeException("A parcela " + parcela.getCodigo() + " não pertence ao cliente selecionado");
 
 			try {
