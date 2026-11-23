@@ -10,14 +10,14 @@
   "resultados": [
     {
       "execucao": 1,
-      "data": "2026-11-23T01:07:26.490Z",
+      "data": "2026-11-23T01:12:24.259Z",
       "requisicoes": {
-        "total": 19,
+        "total": 23,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 36,
+        "total": 44,
         "pending": 0,
         "failed": 2
       },
@@ -28,7 +28,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 35"
+          "detalhe": "expected undefined to deeply equal 39"
         }
       ],
       "casos": [
@@ -253,6 +253,62 @@
           ]
         },
         {
+          "caso": "INT-10 · Consultar catálogo administrativo",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A lista administrativa inclui o título criado com o caminho de filme",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-11 · Consultar gráfico de avaliações",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O gráfico apresenta a nota média do filme criado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-12 · Remover comentário de teste",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A API devolve o comentário criado nesta execução",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-12 · Confirmar remoção do comentário",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme continua acessível e sua lista de comentários está vazia",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -264,7 +320,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 35"
+              "detalhe": "expected undefined to deeply equal 39"
             }
           ]
         },
@@ -296,14 +352,14 @@
     },
     {
       "execucao": 2,
-      "data": "2026-11-23T01:07:27.211Z",
+      "data": "2026-11-23T01:12:25.090Z",
       "requisicoes": {
-        "total": 19,
+        "total": 23,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 36,
+        "total": 44,
         "pending": 0,
         "failed": 2
       },
@@ -314,7 +370,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 36"
+          "detalhe": "expected undefined to deeply equal 40"
         }
       ],
       "casos": [
@@ -539,6 +595,62 @@
           ]
         },
         {
+          "caso": "INT-10 · Consultar catálogo administrativo",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A lista administrativa inclui o título criado com o caminho de filme",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-11 · Consultar gráfico de avaliações",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O gráfico apresenta a nota média do filme criado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-12 · Remover comentário de teste",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A API devolve o comentário criado nesta execução",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-12 · Confirmar remoção do comentário",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme continua acessível e sua lista de comentários está vazia",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -550,7 +662,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 36"
+              "detalhe": "expected undefined to deeply equal 40"
             }
           ]
         },
@@ -584,8 +696,8 @@
   "coberturaDeOperacoes": {
     "escopo": "ApiFilmController",
     "mapeadas": 16,
-    "exercitadas": 13,
-    "percentualExercitado": 81.25,
-    "aprovadas": 12
+    "exercitadas": 16,
+    "percentualExercitado": 100,
+    "aprovadas": 15
   }
 }

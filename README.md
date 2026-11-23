@@ -250,11 +250,9 @@ No PowerShell, defina as variáveis com `$env:ET_EUS_API = "http://localhost:444
 ## Testes de integração
  
 A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
-A meta de cobertura definida pelo grupo é de 80% das operações do controlador
-de filmes. A coleção exercita **13 de 16 operações (81,25%)**, contando cada
-combinação de método HTTP e rota uma vez. As três operações fora da coleção
-são a listagem administrativa, o gráfico de avaliações e a exclusão individual
-de comentário.
+A coleção exercita **16 de 16 operações (100%)** do controlador de filmes.
+A métrica conta cada combinação de método HTTP e rota uma vez, incluindo
+operações exercitadas com resultado reprovado.
 
 | Caso | O que verifica |
 | --- | --- |
@@ -267,6 +265,9 @@ de comentário.
 | INT-07 | Consulta de relacionados para um filme sem gêneros associados. |
 | INT-08 | Publicação e consulta do comentário persistido. |
 | INT-09 | Registro e consulta da avaliação, com comparação do ranking antes e depois da avaliação. |
+| INT-10 | Listagem administrativa inclui o título criado e seu caminho. |
+| INT-11 | Gráfico de avaliações apresenta a nota média do filme de teste. |
+| INT-12 | Exclusão do comentário criado, com confirmação na consulta ao filme. |
 
 - [Coleção Postman](webapp-1/postman/webapp-1-integration.postman_collection.json)
 - [Ambiente local de exemplo](webapp-1/postman/webapp-1-local.postman_environment.json)
@@ -283,15 +284,15 @@ de comentário.
    `admin_user` e `admin_password` com uma conta local do Webapp-1 com as funções `ROLE_ADMIN` e `ROLE_USER`
    no ambiente local de testes.
 3. Execute a coleção inteira com **Run collection**, em uma instância local de
-   testes sem cadastros simultâneos. São 19 requisições e 36 verificações.
+   testes sem cadastros simultâneos. São 23 requisições e 44 verificações.
    A coleção cria um filme com nome `qa-postman-<id>`, publica um comentário e
    uma avaliação nesse filme e remove o registro de teste ao final.
 
 Se a execução for interrompida após o cadastro, use o valor de `film_name` para
 localizar e remover somente o filme dessa execução no ambiente local.
 
-Em cada uma das duas execuções, passaram **34 de 36 verificações**, com
-**12 das 13 operações exercitadas aprovadas**. A API respondeu com HTTP `500` na remoção,
+Em cada uma das duas execuções, passaram **42 de 44 verificações**, com
+**15 das 16 operações exercitadas aprovadas**. A API respondeu com HTTP `500` na remoção,
 embora a consulta posterior tenha retornado `404`. O log indica falha ao
 serializar a resposta depois da exclusão. A coleção registra a divergência
 como falha e mantém `200` como resultado esperado para o `DELETE`.
