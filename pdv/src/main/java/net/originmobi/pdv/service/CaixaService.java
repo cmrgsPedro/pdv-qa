@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,14 +28,15 @@ public class CaixaService {
 	private String descricao;
 	private Usuario usuario;
 
-	@Autowired
-	private CaixaRepository caixas;
+	private final CaixaRepository caixas;
+	private final UsuarioService usuarios;
+	private final CaixaLancamentoService lancamentos;
 
-	@Autowired
-	private UsuarioService usuarios;
-
-	@Autowired
-	private CaixaLancamentoService lancamentos;
+	public CaixaService(CaixaRepository caixas, UsuarioService usuarios, CaixaLancamentoService lancamentos) {
+		this.caixas = caixas;
+		this.usuarios = usuarios;
+		this.lancamentos = lancamentos;
+	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Long cadastro(Caixa caixa) {
