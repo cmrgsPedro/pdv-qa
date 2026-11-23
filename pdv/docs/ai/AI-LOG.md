@@ -158,9 +158,10 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Ferramenta:** Claude (Claude Code)
 - **Atividade:** Automatizar com Selenium os casos manuais U1 a U4 no `webapp-1`.
 - **Prompt resumido:** Automatizar os testes manuais do PDF para rodar no `webapp-1`.
-- **Resultado obtido:** Classe base `TestE2EBase` e automações de U1 a U3 na branch principal. A tentativa de automação do U4 apresentou erro e aguarda publicação para avaliação. Os testes de outro repositório, comparados antes, não correspondiam aos casos manuais. A primeira versão do U4 verificava o comportamento defeituoso do sistema e por isso passava; foi reescrita para verificar o comportamento esperado.
-- **Decisão da equipe:** A automação do U4 será avaliada após a publicação. Se a avaliação confirmar um defeito reproduzível, o grupo decide se abre uma issue e registra a evidência. O #10 (e-mail não persistido) não reproduziu nem na automação nem na reexecução manual e deve ser reavaliado.
-- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+- **Resultado obtido:** Classe base `TestE2EBase` e automações de U1 a U4 na branch principal. O [PR #23](https://github.com/cmrgsPedro/pdv-qa/pull/23) adicionou seis testes do U4. Três cobrem perfil, edição de e-mail e criação de lista. Os outros três verificam o comportamento esperado das issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11) e têm a tag `defeito-conhecido`.
+- **Decisão da equipe:** Documentar a execução da suíte principal com exclusão explícita da tag e uma execução separada para os três casos marcados.
+- **Validação:** A equipe relatou que a falha de persistência do e-mail da issue #10 não se reproduziu na reexecução manual anterior. Ainda falta publicar os resultados das duas execuções com o U4 incorporado à branch principal.
+
 
 ## Interação 015 — Adicionando testes extras E2E
 

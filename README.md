@@ -220,7 +220,7 @@ Os testes usam Selenium (JUnit 5) e ficam em
 | U1 — Visualizar comentários de uma série | Arthur | `TestE2EU1VisualizarComentarios` |
 | U2 — Visualizar o trailer de um filme | Pedro | `TestE2EU2TrailerMaisAssistido` |
 | U3 — Pesquisar série por gênero | João Paulo | `TestE2EU3PesquisarSeriePorGenero` |
-| U4 — Editar perfil e gerenciar listas | Rodrigo | Caso manual. A automação apresentou erro e aguarda avaliação. |
+| U4 — Editar perfil e gerenciar listas | Rodrigo | [TestE2EU4EditarPerfil](webapp-1/TrackOrJargh/src/test/java/com/trackorjargh/e2e/TestE2EU4EditarPerfil.java) |
 
  
 ### Testes adicionais
@@ -230,7 +230,7 @@ Os testes usam Selenium (JUnit 5) e ficam em
 | `TestE2ERegisterAndLogin` | Cadastro, ativação pela rota da aplicação e login. O fluxo está relacionado ao VU-2. |
 | `TestE2ESecurityRoles` | Restrições de acesso por perfil. |
 
-Falta publicar uma execução consolidada das suítes Selenium da entrega.
+O U4 tem três cenários de perfil, edição de e-mail e criação de lista e três com a tag `defeito-conhecido`, ligados às issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11). Falta publicar os resultados da execução consolidada e da execução separada do U4.
 
  
 ### Como executar os testes E2E
@@ -248,7 +248,7 @@ Confirme que <http://localhost:8000> abre o TrackOrJargh.
 2. Em outro terminal, rode os testes (requer o Google Chrome instalado):
 ```sh
 cd pdv-qa/webapp-1/TrackOrJargh
-mvn test -Dtest="TestE2E*"
+mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
 ```
  
 **Sem Chrome instalado**, use um navegador em contêiner:
@@ -257,11 +257,19 @@ mvn test -Dtest="TestE2E*"
 docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome
 $env:ET_EUS_API = "http://localhost:4444/wd/hub"
 $env:SUT_URL = "http://host.docker.internal:8000/"
-mvn test -Dtest="TestE2E*"
+mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
 ```
  
  
  
+Para executar apenas os três cenários marcados como defeito conhecido no U4,
+use o comando abaixo no mesmo diretório. O `pom.xml` não exclui essa tag por
+padrão. Por isso, use o filtro explícito acima ao rodar a suíte principal.
+
+```powershell
+mvn test "-Dtest=TestE2EU4EditarPerfil" "-Dgroups=defeito-conhecido"
+```
+
 ## Testes de integração
  
 A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.

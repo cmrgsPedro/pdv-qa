@@ -2,6 +2,7 @@
 
 ## Testes da Entrega 2
 
+- [Instruções para Selenium e reprodução dos defeitos do U4](../README.md#como-executar-os-testes-e2e)
 - [Instruções e resultados dos testes de integração](../README.md#testes-de-integração)
 - [Coleção Postman](postman/webapp-1-integration.postman_collection.json)
 - [Ambiente local de exemplo](postman/webapp-1-local.postman_environment.json)
