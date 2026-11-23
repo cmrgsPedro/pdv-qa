@@ -184,6 +184,26 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Validação:** A coleção foi executada duas vezes com Newman contra o Webapp-1 local e o MySQL do Docker Compose. Cada execução teve 15 de 16 operações aprovadas e 42 de 44 verificações passando. As duas falhas reproduziram o mesmo defeito de exclusão.
 - **Evidências:** [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17) e [relatório Newman](../../../webapp-1/postman/evidencias/execucao-newman.json).
 
+## Interação 017 — Análise inicial no SonarQube
+
+- **Data:** 23/11/2026.
+- **Ferramenta:** Codex, com SonarQube Community Build e SonarScanner para Maven.
+- **Atividade:** Executar a análise inicial do código-fonte do PDV e organizar as evidências por classe.
+- **Prompt resumido:** Executar a parte da inspeção que pode ser automatizada e preparar as evidências anteriores às correções.
+- **Resultado obtido:** O SonarQube registrou 29 apontamentos nas quatro classes selecionadas. O Codex exportou os resultados, capturou a visão geral e as quatro telas filtradas e documentou sugestões de correção.
+- **Decisão:** Usar as quatro classes de produção já atribuídas no trabalho e guardar a análise do commit `eee1cc9` para comparação com a rodada posterior aos PRs.
+- **Validação:** Os 104 testes unitários passaram durante a análise. Os totais por classe foram conferidos na exportação da API e nas telas do SonarQube.
+- **Evidência:** [Análise inicial do PDV](../evidencias/inspecao-codigo/README.md).
+
+## Interação 018 — Correções propostas para revisão
+
+- **Data:** 23/11/2026.
+- **Solicitação:** Pedro Camargos, com implementação assistida pelo Codex.
+- **Atividade:** Preparar correções em quatro PRs independentes, um por classe, para revisão dos integrantes.
+- **Resultado:** Injeção por construtor nas quatro classes e comparação dos IDs de cliente por valor em `RecebimentoService`.
+- **Validação inicial:** A regressão de IDs falhou com a implementação anterior e passou após a correção. As quatro suítes rodaram juntas com 105 testes aprovados.
+- **Colaboração:** As propostas foram preparadas nesta rodada com assistência do Codex. A revisão de cada integrante deve ser registrada pelo próprio revisor no GitHub.
+
 ## Limites e responsabilidade da equipe
 
 - A IA auxiliou na análise, geração inicial, revisão e diagnóstico, mas não substituiu a conferência do código-fonte nem a execução dos testes.

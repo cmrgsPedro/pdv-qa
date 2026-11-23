@@ -116,7 +116,7 @@ target/site/jacoco/index.html
 - [Registro de uso de IA](pdv/docs/ai/AI-LOG.md)
 - [Pull requests do projeto](https://github.com/cmrgsPedro/pdv-qa/pulls?q=is%3Apr)
 - [Avaliação de qualidade ISO/IEC 25010 do Webapp-1 (PDF)](webapp-1/docs/Avaliacao_Qualidade_ISO25010.pdf)
-- Inspeção de código: pendente.
+- [Inspeção de código do PDV — análise inicial](pdv/docs/evidencias/inspecao-codigo/README.md). Correções e análise comparativa pendentes.
 - Slides da apresentação: pendentes.
 
 ## Repositórios utilizados
