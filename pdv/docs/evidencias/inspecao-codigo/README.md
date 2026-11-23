@@ -17,7 +17,20 @@ Use a regra [`java:S6813`](https://rules.sonarsource.com/java/RSPEC-6813/) para 
 
 Em `RecebimentoService.abrirRecebimento`, a regra [`java:S4973`](https://rules.sonarsource.com/java/RSPEC-4973/) aponta a comparação de dois `Long` com `!=`. Objetos distintos podem representar o mesmo ID. O caso de regressão deve confirmar que a parcela do cliente é aceita mesmo quando as referências dos IDs diferem e que um ID de outro cliente continua sendo rejeitado.
 
-## Reprodução e comparação
+## Validação local das correções propostas
+
+A segunda rodada analisou as alterações de código e testes combinadas dos quatro PRs sobre `eee1cc9`, antes de qualquer merge. Os **105 testes unitários passaram** e as quatro classes ficaram com **zero apontamentos abertos**. O SonarQube marcou os mesmos 29 apontamentos da rodada inicial como `FIXED` e o Quality Gate ficou `OK`. A [exportação do depois](sonar-depois.json) registra o SHA-256 do diff do código e dos testes, os resultados por arquivo e os identificadores corrigidos. [Captura da visão geral do depois](sonar-depois-visao-geral.png)
+
+| Classe | Antes | Depois local | Captura dos corrigidos | PR |
+|---|---:|---:|---|---|
+| `VendaService` | 11 | 0 | [VendaService](sonar-depois-VendaService.png) | [#27](https://github.com/cmrgsPedro/pdv-qa/pull/27) |
+| `CaixaService` | 3 | 0 | [CaixaService](sonar-depois-CaixaService.png) | [#30](https://github.com/cmrgsPedro/pdv-qa/pull/30) |
+| `RecebimentoService` | 10 | 0 | [RecebimentoService](sonar-depois-RecebimentoService.png) | [#29](https://github.com/cmrgsPedro/pdv-qa/pull/29) |
+| `NotaFiscalItemService` | 5 | 0 | [NotaFiscalItemService](sonar-depois-NotaFiscalItemService.png) | [#28](https://github.com/cmrgsPedro/pdv-qa/pull/28) |
+
+Pedro Camargos solicitou as alterações, preparadas com assistência do Codex. Os responsáveis indicados no relatório são os responsáveis pelas classes. As revisões individuais são registradas no GitHub.
+
+## Reprodução
 
 Na pasta `pdv`, com JDK 21, Maven e um token de análise na variável `SONAR_TOKEN`, execute sobre o commit que será registrado no relatório:
 
@@ -37,4 +50,4 @@ mvn -B clean test `
 
 A análise inicial usou uma cópia exata do código versionado, sem metadados do Git para o scanner. O scanner usou o JDK 21 local depois que a inicialização do JRE baixado automaticamente falhou. O módulo manteve o alvo Java 8 configurado no `pom.xml`.
 
-Após integrar as correções, repetir a análise com o mesmo projeto e perfil de regras. Registrar, por classe, os apontamentos resolvidos, o PR, os testes executados e as capturas comparáveis. Acrescentar o link do relatório editável no README principal.
+Após integrar os PRs, confirmar o resultado na `master` com o mesmo projeto e perfil de regras. Acrescentar o link do relatório editável no README principal.
