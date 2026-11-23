@@ -141,7 +141,7 @@ Para a segunda entrega do trabalho da disciplina de Qualidade e Teste de Softwar
 
 - Aprimoramento dos casos de teste unitários das classes anteriores, para atingir a meta de 80% de cobertura proposta pela professora.
 - Revisão dos testes pelos membros da equipe, verificando se cada teste fazia sentido para o código testado.
-- Testes de integração realizados com Postman.
+- Testes de integração da API de filmes do Webapp-1 com Postman.
 - Testes de sistema E2E implementados, seguindo os testes manuais propostos anteriormente para o projeto Webapp-1.
 
 ## Como executar o Webapp-1
@@ -249,5 +249,32 @@ No PowerShell, defina as variáveis com `$env:ET_EUS_API = "http://localhost:444
  
 ## Testes de integração
  
-Link para o Postman e para o relatório de execução.
- 
+A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose. Ela
+verifica o cadastro em uma consulta separada, a preservação dos dados após uma
+tentativa de duplicidade e a remoção do registro de teste.
+
+- [Coleção Postman](webapp-1/postman/webapp-1-integration.postman_collection.json)
+- [Ambiente local de exemplo](webapp-1/postman/webapp-1-local.postman_environment.json)
+- [Evidência das duas execuções no Newman](webapp-1/postman/evidencias/execucao-newman.json)
+
+1. Na raiz do repositório, suba o Webapp-1 e o banco.
+
+   ```sh
+   docker compose -f webapp-1/docker/docker-compose.yml up -d
+   ```
+
+2. No Postman, importe a coleção e o ambiente **Webapp-1 Local**. Selecione o
+   ambiente, mantenha `base_url` como `http://localhost:8000` e preencha
+   `admin_user` e `admin_password` com uma conta administradora do Webapp-1
+   no ambiente local de testes.
+3. Execute a coleção inteira com **Run collection**. A sequência HTTP esperada é
+   `200, 200, 226, 200, 200, 404`. A coleção cria um filme com nome
+   `qa-postman-<id>` e remove esse filme ao final.
+
+Se a execução for interrompida após o cadastro, use o valor de `film_name` para
+localizar e remover somente o filme dessa execução no ambiente local.
+
+Nas duas execuções registradas, a API respondeu com HTTP `500` na remoção,
+embora a consulta posterior tenha retornado `404`. O log indica falha ao
+serializar a resposta depois da exclusão. A coleção registra a divergência
+como falha e mantém `200` como resultado esperado para o `DELETE`.

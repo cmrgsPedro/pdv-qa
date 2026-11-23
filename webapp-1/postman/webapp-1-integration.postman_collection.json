@@ -1,0 +1,382 @@
+{
+  "info": {
+    "name": "Webapp-1 — Integração de filmes",
+    "description": "Execute a coleção inteira contra o Webapp-1 local com MySQL. Cada execução usa um filme próprio e verifica cadastro, persistência, rejeição de duplicidade e remoção.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "INT-01 · Cadastrar filme",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const nome = 'qa-postman-' + pm.variables.replaceIn('{{$guid}}');",
+              "pm.collectionVariables.unset('film_id');",
+              "pm.collectionVariables.set('film_name', nome);",
+              "pm.variables.set('film_name', nome);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O cadastro devolve o ID e os dados do filme criado\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const filme = pm.response.json();",
+              "    pm.expect(filme.id).to.be.a('number').and.above(0);",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(filme.synopsis).to.eql('Sinopse original do teste de integração');",
+              "    pm.collectionVariables.set('film_id', filme.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas"
+          ]
+        },
+        "description": "Gera um nome exclusivo e salva o ID retornado para as consultas.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{film_name}}\",\n  \"synopsis\": \"Sinopse original do teste de integração\",\n  \"year\": 2020,\n  \"genders\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-01 · Consultar cadastro",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A consulta retorna o filme persistido com os dados originais\", function () {",
+              "    const filme = pm.response.json();",
+              "    const id = pm.collectionVariables.get('film_id');",
+              "    pm.expect(id, 'ID capturado no cadastro').to.be.a('number').and.above(0);",
+              "    pm.expect(filme.id).to.eql(id);",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(filme.synopsis).to.eql('Sinopse original do teste de integração');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "Consulta o filme em uma segunda requisição para verificar os dados persistidos."
+      },
+      "response": []
+    },
+    {
+      "name": "INT-02 · Tentar cadastrar duplicado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 226\", function () {",
+              "    pm.response.to.have.status(226);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas"
+          ]
+        },
+        "description": "Repete o nome e envia outra sinopse para verificar a rejeição de duplicidade.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{film_name}}\",\n  \"synopsis\": \"Sinopse que não deve ser gravada\",\n  \"year\": 2020,\n  \"genders\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-02 · Confirmar preservação dos dados",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A consulta retorna o filme persistido com os dados originais\", function () {",
+              "    const filme = pm.response.json();",
+              "    const id = pm.collectionVariables.get('film_id');",
+              "    pm.expect(id, 'ID capturado no cadastro').to.be.a('number').and.above(0);",
+              "    pm.expect(filme.id).to.eql(id);",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(filme.synopsis).to.eql('Sinopse original do teste de integração');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "Confirma que a tentativa duplicada preservou o registro original."
+      },
+      "response": []
+    },
+    {
+      "name": "INT-03 · Remover filme de teste",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const nome = pm.collectionVariables.get('film_name');",
+              "const id = pm.collectionVariables.get('film_id');",
+              "if (typeof nome !== 'string' || !nome.startsWith('qa-postman-') || !Number.isInteger(id) || id < 1) {",
+              "    console.warn('Remoção ignorada porque o cadastro desta execução não foi confirmado.');",
+              "    pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O filme removido é o que foi criado por esta execução\", function () {",
+              "    const filme = pm.response.json();",
+              "    pm.expect(filme.id).to.eql(pm.collectionVariables.get('film_id'));",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "Limpa o registro identificado no cadastro."
+      },
+      "response": []
+    },
+    {
+      "name": "INT-03 · Confirmar remoção",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "A consulta ao filme removido deve retornar 404."
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const nome = pm.collectionVariables.get('film_name');",
+          "if (nome) pm.variables.set('film_name', nome);"
+        ]
+      }
+    }
+  ]
+}

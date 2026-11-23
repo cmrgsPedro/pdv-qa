@@ -1,0 +1,220 @@
+{
+  "ferramenta": "Newman 6.2.1",
+  "colecao": "webapp-1-integration.postman_collection.json",
+  "dataLocal": "2026-11-22",
+  "fusoHorario": "America/Sao_Paulo",
+  "codigoBase": "cda8d2d3c35437532917aa3ea7f69b269ab9ddda",
+  "imagem": "codeurjc/webapp-1-master@sha256:4362c27feffc500f8391a7d341bc33ee4593e72ec475b1b4ff0540057c06a120",
+  "ambiente": "Webapp-1 local na porta 8000, com o MySQL do Docker Compose",
+  "observacao": "As duas execuções usaram filmes distintos. Em ambas, a remoção retornou HTTP 500 e a consulta posterior retornou HTTP 404. O log da aplicação registrou HttpMessageNotWritableException ao serializar Film.genders após a exclusão, porque a sessão do Hibernate já estava indisponível.",
+  "resultados": [
+    {
+      "execucao": 1,
+      "data": "2026-11-23T00:44:55.542Z",
+      "requisicoes": {
+        "total": 6,
+        "pending": 0,
+        "failed": 0
+      },
+      "verificacoes": {
+        "total": 10,
+        "pending": 0,
+        "failed": 2
+      },
+      "falhas": [
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "detalhe": "expected response to have status code 200 but got 500"
+        },
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "detalhe": "expected undefined to deeply equal 25"
+        }
+      ],
+      "casos": [
+        {
+          "caso": "INT-01 · Cadastrar filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O cadastro devolve o ID e os dados do filme criado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-01 · Consultar cadastro",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o filme persistido com os dados originais",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-02 · Tentar cadastrar duplicado",
+          "statusHttp": 226,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 226",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-02 · Confirmar preservação dos dados",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o filme persistido com os dados originais",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "statusHttp": 500,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": false,
+              "detalhe": "expected response to have status code 200 but got 500"
+            },
+            {
+              "nome": "O filme removido é o que foi criado por esta execução",
+              "passou": false,
+              "detalhe": "expected undefined to deeply equal 25"
+            }
+          ]
+        },
+        {
+          "caso": "INT-03 · Confirmar remoção",
+          "statusHttp": 404,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 404",
+              "passou": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "execucao": 2,
+      "data": "2026-11-23T00:44:55.900Z",
+      "requisicoes": {
+        "total": 6,
+        "pending": 0,
+        "failed": 0
+      },
+      "verificacoes": {
+        "total": 10,
+        "pending": 0,
+        "failed": 2
+      },
+      "falhas": [
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "detalhe": "expected response to have status code 200 but got 500"
+        },
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "detalhe": "expected undefined to deeply equal 26"
+        }
+      ],
+      "casos": [
+        {
+          "caso": "INT-01 · Cadastrar filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O cadastro devolve o ID e os dados do filme criado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-01 · Consultar cadastro",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o filme persistido com os dados originais",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-02 · Tentar cadastrar duplicado",
+          "statusHttp": 226,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 226",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-02 · Confirmar preservação dos dados",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o filme persistido com os dados originais",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-03 · Remover filme de teste",
+          "statusHttp": 500,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": false,
+              "detalhe": "expected response to have status code 200 but got 500"
+            },
+            {
+              "nome": "O filme removido é o que foi criado por esta execução",
+              "passou": false,
+              "detalhe": "expected undefined to deeply equal 26"
+            }
+          ]
+        },
+        {
+          "caso": "INT-03 · Confirmar remoção",
+          "statusHttp": 404,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 404",
+              "passou": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
