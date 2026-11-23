@@ -1,0 +1,317 @@
+{
+  "etapa": "antes",
+  "dataLocal": "2026-11-23T01:45:56-03:00",
+  "commit": "eee1cc9907d6ff8a0d3bda61d8988c93465c86ab",
+  "servidor": "26.11.0.134175",
+  "scannerMaven": "5.5.0.6356",
+  "tarefa": "76d029c4-5515-4b87-899b-e88e4d1e7b1d",
+  "analise": "7b8390c9-922c-49ca-830b-04a9db678556",
+  "qualityGate": "OK",
+  "projeto": "pdv-qa",
+  "testes": [
+    "[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.843 s - in net.originmobi.pdv.service.CaixaServiceTest",
+    "[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s - in net.originmobi.pdv.service.notafiscal.NotaFiscalItemServiceTest",
+    "[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.509 s - in net.originmobi.pdv.service.RecebimentoServiceTest",
+    "[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.224 s - in net.originmobi.pdv.service.VendaServiceTest",
+    "[INFO] Tests run: 104, Failures: 0, Errors: 0, Skipped: 0"
+  ],
+  "classes": [
+    {
+      "integrante": "Pedro Campos Camargos",
+      "classe": "VendaService.java",
+      "arquivo": "src/main/java/net/originmobi/pdv/service/VendaService.java",
+      "chaveComponente": "pdv-qa:src/main/java/net/originmobi/pdv/service/VendaService.java",
+      "total": 11,
+      "apontamentos": [
+        {
+          "key": "0be8e96b-96fa-4717-865e-ace7b3504ea1",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 40,
+          "status": "OPEN"
+        },
+        {
+          "key": "99085c30-0a95-4378-a8bd-4acb11f4c58a",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 43,
+          "status": "OPEN"
+        },
+        {
+          "key": "33bbdfdd-5d01-438f-85df-3c3b4412300b",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 46,
+          "status": "OPEN"
+        },
+        {
+          "key": "01d36e11-099f-4d36-8b4d-428dd572ce8c",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 49,
+          "status": "OPEN"
+        },
+        {
+          "key": "3958a692-2cfa-4dbc-ad8d-1d817a16b640",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 52,
+          "status": "OPEN"
+        },
+        {
+          "key": "481dc28c-a07c-4286-bf99-9e55c9a8d2a9",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 55,
+          "status": "OPEN"
+        },
+        {
+          "key": "e8785980-2b50-45dd-9778-0115b03c3b67",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 58,
+          "status": "OPEN"
+        },
+        {
+          "key": "1dfe03da-cbe3-45f3-8dba-99c45c71b66e",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 61,
+          "status": "OPEN"
+        },
+        {
+          "key": "78b8519d-4548-4646-83d2-5c1a8b03f73e",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 64,
+          "status": "OPEN"
+        },
+        {
+          "key": "b3504989-8ad3-4923-baf1-2182c86b5582",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 67,
+          "status": "OPEN"
+        },
+        {
+          "key": "b8498a25-fb34-468d-94b2-6342f9e57e0c",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 70,
+          "status": "OPEN"
+        }
+      ]
+    },
+    {
+      "integrante": "Arthur Jardim Antunes Ferreira",
+      "classe": "CaixaService.java",
+      "arquivo": "src/main/java/net/originmobi/pdv/service/CaixaService.java",
+      "chaveComponente": "pdv-qa:src/main/java/net/originmobi/pdv/service/CaixaService.java",
+      "total": 3,
+      "apontamentos": [
+        {
+          "key": "6ae7e264-6d8d-4dce-80d6-7c2aa87147d4",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 32,
+          "status": "OPEN"
+        },
+        {
+          "key": "3f6854fb-e52b-4f41-b7a8-e208ab8c9774",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 35,
+          "status": "OPEN"
+        },
+        {
+          "key": "e61b754f-78d3-4f9c-942f-957baa9a504d",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 38,
+          "status": "OPEN"
+        }
+      ]
+    },
+    {
+      "integrante": "Rodrigo Lima de Albuquerque",
+      "classe": "RecebimentoService.java",
+      "arquivo": "src/main/java/net/originmobi/pdv/service/RecebimentoService.java",
+      "chaveComponente": "pdv-qa:src/main/java/net/originmobi/pdv/service/RecebimentoService.java",
+      "total": 10,
+      "apontamentos": [
+        {
+          "key": "7ce16135-0ee8-42d5-b9cf-c58a445d2bf3",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 33,
+          "status": "OPEN"
+        },
+        {
+          "key": "365c74b0-6e2a-4a7d-b97a-4ad3336aa004",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 36,
+          "status": "OPEN"
+        },
+        {
+          "key": "b40f86e3-a930-4568-8abb-9bc227ddd453",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 39,
+          "status": "OPEN"
+        },
+        {
+          "key": "8cc63c38-3810-4739-af53-b55192a65e97",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 42,
+          "status": "OPEN"
+        },
+        {
+          "key": "ae329148-4ffc-4790-b4b5-43e395813593",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 45,
+          "status": "OPEN"
+        },
+        {
+          "key": "85399600-4f79-47ad-85a5-f1fa0c8dd4df",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 48,
+          "status": "OPEN"
+        },
+        {
+          "key": "a84cb596-99e8-40b5-bb04-6a5f8206422a",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 51,
+          "status": "OPEN"
+        },
+        {
+          "key": "52516a54-3009-49bd-b864-a014ca47015b",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 54,
+          "status": "OPEN"
+        },
+        {
+          "key": "2ace5333-86b5-415f-8454-33451753c68e",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 57,
+          "status": "OPEN"
+        },
+        {
+          "key": "59a44846-da37-4f41-bca2-14cd2d2eaab7",
+          "rule": "java:S4973",
+          "severity": "MAJOR",
+          "type": "BUG",
+          "message": "Strings and Boxed types should be compared using \"equals()\".",
+          "line": 72,
+          "status": "OPEN"
+        }
+      ]
+    },
+    {
+      "integrante": "JoÃƒÂ£o Paulo Alves da Silveira",
+      "classe": "NotaFiscalItemService.java",
+      "arquivo": "src/main/java/net/originmobi/pdv/service/notafiscal/NotaFiscalItemService.java",
+      "chaveComponente": "pdv-qa:src/main/java/net/originmobi/pdv/service/notafiscal/NotaFiscalItemService.java",
+      "total": 5,
+      "apontamentos": [
+        {
+          "key": "4a0ab77e-066a-4d69-b843-c8f9eeab3f53",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 27,
+          "status": "OPEN"
+        },
+        {
+          "key": "64c29005-65e5-4398-a6b4-4e4548c23733",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 30,
+          "status": "OPEN"
+        },
+        {
+          "key": "262380c2-5132-45e3-9c3f-61310f048575",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 33,
+          "status": "OPEN"
+        },
+        {
+          "key": "7efa5bf5-a554-480b-a7b7-9005ef6e3efb",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 36,
+          "status": "OPEN"
+        },
+        {
+          "key": "9985dc8b-bdad-493d-aee1-94f7a5d2d6d7",
+          "rule": "java:S6813",
+          "severity": "MAJOR",
+          "type": "CODE_SMELL",
+          "message": "Remove this field injection and use constructor injection instead.",
+          "line": 39,
+          "status": "OPEN"
+        }
+      ]
+    }
+  ]
+}

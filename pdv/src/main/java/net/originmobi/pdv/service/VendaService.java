@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,38 +36,35 @@ import net.originmobi.pdv.utilitarios.DataAtual;
 @Service
 public class VendaService {
 
-	@Autowired
-	private VendaRepository vendas;
+	private final VendaRepository vendas;
+	private final UsuarioService usuarios;
+	private final VendaProdutoService vendaProdutos;
+	private final PagamentoTipoService formaPagamentos;
+	private final CaixaService caixas;
+	private final ReceberService receberServ;
+	private final ParcelaService parcelas;
+	private final CaixaLancamentoService lancamentos;
+	private final TituloService tituloService;
+	private final CartaoLancamentoService cartaoLancamento;
+	private final ProdutoService produtos;
 
-	@Autowired
-	private UsuarioService usuarios;
-
-	@Autowired
-	private VendaProdutoService vendaProdutos;
-
-	@Autowired
-	private PagamentoTipoService formaPagamentos;
-
-	@Autowired
-	private CaixaService caixas;
-
-	@Autowired
-	private ReceberService receberServ;
-
-	@Autowired
-	private ParcelaService parcelas;
-
-	@Autowired
-	private CaixaLancamentoService lancamentos;
-
-	@Autowired
-	private TituloService tituloService;
-
-	@Autowired
-	private CartaoLancamentoService cartaoLancamento;
-
-	@Autowired
-	private ProdutoService produtos;
+	public VendaService(VendaRepository vendas, UsuarioService usuarios, VendaProdutoService vendaProdutos,
+			PagamentoTipoService formaPagamentos, CaixaService caixas,
+			ReceberService receberServ, ParcelaService parcelas,
+			CaixaLancamentoService lancamentos, TituloService tituloService,
+			CartaoLancamentoService cartaoLancamento, ProdutoService produtos) {
+		this.vendas = vendas;
+		this.usuarios = usuarios;
+		this.vendaProdutos = vendaProdutos;
+		this.formaPagamentos = formaPagamentos;
+		this.caixas = caixas;
+		this.receberServ = receberServ;
+		this.parcelas = parcelas;
+		this.lancamentos = lancamentos;
+		this.tituloService = tituloService;
+		this.cartaoLancamento = cartaoLancamento;
+		this.produtos = produtos;
+	}
 
 	private Timestamp dataHoraAtual = new Timestamp(System.currentTimeMillis());
 
