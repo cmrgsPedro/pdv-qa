@@ -10,7 +10,7 @@
   },
   "execucoes": [
     {
-      "escopo": "Suíte principal",
+      "escopo": "Rodada original com seletor TestE2E*",
       "resumo": {
         "erro": 1,
         "aprovado": 9
@@ -97,6 +97,60 @@
           "teste": "emailEditadoDevePermanecerAposRecarregar",
           "resultado": "aprovado",
           "observacao": "Issue #10 não se reproduziu nesta execução: o valor editado permaneceu após recarregar e voltar ao perfil."
+        }
+      ]
+    },
+    {
+      "escopo": "Seleção explícita das seis classes da Entrega 2",
+      "dataLocal": "2026-11-23",
+      "resumo": {
+        "aprovado": 9
+      },
+      "casos": [
+        {
+          "classe": "TestE2ERegisterAndLogin",
+          "teste": "registraAtivaELogaUsuarioNovo",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2ESecurityRoles",
+          "teste": "usuarioComumNaoAcessaAdministracaoEAdminAcessa",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2ESecurityRoles",
+          "teste": "loginInvalidoExibeMensagemDeErro",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU1VisualizarComentarios",
+          "teste": "visualizaComentariosDaSerieNarcos",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU2TrailerMaisAssistido",
+          "teste": "assisteTrailerDoFilmeMelhorAvaliado",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU3PesquisarSeriePorGenero",
+          "teste": "pesquisaSeriesDoGeneroComedia",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "listaCriadaApareceEPermaneceNoPerfil",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "perfilExibeNomeEmailEAvatar",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "emailEditadoApareceAposSalvar",
+          "resultado": "aprovado"
         }
       ]
     }
