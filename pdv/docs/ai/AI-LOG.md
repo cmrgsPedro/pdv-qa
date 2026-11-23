@@ -146,9 +146,10 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Ferramenta:** Claude (Claude Code)
 - **Atividade:** Eliminar mutantes sobreviventes de `VendaService`.
 - **Prompt resumido:** Melhorar a classe de teste a partir do relatório de mutação.
-- **Resultado obtido:** Partida de 50 de 66 mutantes mortos (76%). 5 testes novos (28 → 33): data de cadastro, forma de pagamento gravada, valor do recebimento gerado, numeração das parcelas a prazo e valor do lançamento em dinheiro. Escore após os testes: a projeção é cerca de 91%. Defeitos achados por leitura de código: desconto e acréscimo passados em ordem trocada a `aprazo` e `avistaDinheiro`, soma de parcelas com `vlParcelas[i]` em vez de `[aux]` e `Optional.get()` sem verificação.
+- **Resultado obtido:** Partida de 50 de 66 mutantes mortos (76%). 5 testes novos (28 → 33): data de cadastro, forma de pagamento gravada, valor do recebimento gerado, numeração das parcelas a prazo e valor do lançamento em dinheiro. Escore medido na validação: 60 de 66 mutantes mortos (90,9%). Os 33 testes passaram e o JaCoCo registrou 38 de 38 ramos cobertos. Defeitos achados por leitura de código: desconto e acréscimo passados em ordem trocada a `aprazo` e `avistaDinheiro`, soma de parcelas com `vlParcelas[i]` em vez de `[aux]` e `Optional.get()` sem verificação.
 - **Decisão da equipe:** Os novos testes usam desconto igual a acréscimo para não fixar o comportamento invertido.
 - **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+- **Evidências:** [Surefire](../evidencias/venda-service/surefire.txt), [JaCoCo](../evidencias/venda-service/jacoco.csv) e [PIT](../evidencias/venda-service/pitest-mutations.xml).
 
 ## Interação 014 — Testes de sistema (Selenium) dos casos manuais
 
@@ -157,8 +158,8 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Ferramenta:** Claude (Claude Code)
 - **Atividade:** Automatizar com Selenium os casos manuais U1 a U4 no `webapp-1`.
 - **Prompt resumido:** Automatizar os testes manuais do PDF para rodar no `webapp-1`.
-- **Resultado obtido:** Classe base `TestE2EBase` e quatro classes de teste, escritas a partir dos templates e dos dados iniciais da aplicação. Os testes de outro repositório, comparados antes, não correspondiam aos casos manuais. A primeira versão do U4 verificava o comportamento defeituoso do sistema e por isso passava; foi reescrita para verificar o comportamento esperado.
-- **Decisão da equipe:** Passos que falharam no manual (#9 e #11) viram testes separados com a tag `defeito-conhecido`, fora da execução padrão. O #10 (e-mail não persistido) não reproduziu nem na automação nem na reexecução manual e deve ser reavaliado.
+- **Resultado obtido:** Classe base `TestE2EBase` e automações de U1 a U3 na branch principal. A tentativa de automação do U4 apresentou erro e aguarda publicação para avaliação. Os testes de outro repositório, comparados antes, não correspondiam aos casos manuais. A primeira versão do U4 verificava o comportamento defeituoso do sistema e por isso passava; foi reescrita para verificar o comportamento esperado.
+- **Decisão da equipe:** A automação do U4 será avaliada após a publicação. Se a avaliação confirmar um defeito reproduzível, o grupo decide se abre uma issue e registra a evidência. O #10 (e-mail não persistido) não reproduziu nem na automação nem na reexecução manual e deve ser reavaliado.
 - **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
 
 ## Interação 015 — Adicionando testes extras E2E
@@ -170,6 +171,17 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Prompt resumido:** Adicionar alguns testes nesse repositório, escolhendo os mais úteis.
 - **Resultado obtido:** `TestE2ESecurityRoles`, `TestE2ERegisterAndLogin`, adaptados à base `TestE2EBase`, com verificações mais fortes. A origem está citada no README e neste registro.
 - **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 016 — Testes de integração com Postman
+
+- **Data:** 22/11/2026
+- **Responsável:** Pedro Campos Camargos
+- **Ferramenta:** Codex
+- **Atividade:** Planejar, implementar e validar a coleção de integração do Webapp-1.
+- **Prompt resumido:** Implementar os testes de integração no Postman e ampliar a cobertura para todas as operações da API de filmes.
+- **Resultado obtido:** Coleção, ambiente de exemplo e instruções registrados no [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17).
+- **Decisão da equipe:** Manter a expectativa HTTP 200 para a exclusão do filme e registrar o retorno HTTP 500 observado na [issue #18](https://github.com/cmrgsPedro/pdv-qa/issues/18).
+- **Validação:** As duas execuções com Newman exercitaram 16 operações e aprovaram 42 das 44 verificações em cada rodada. [Evidência das execuções](../../../webapp-1/postman/evidencias/execucao-newman.json).
 
 ## Limites e responsabilidade da equipe
 

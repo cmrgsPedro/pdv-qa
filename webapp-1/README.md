@@ -1,4 +1,12 @@
 # TrackOrJargh
+
+## Testes da Entrega 2
+
+- [Instruções e resultados dos testes de integração](../README.md#testes-de-integração)
+- [Coleção Postman](postman/webapp-1-integration.postman_collection.json)
+- [Ambiente local de exemplo](postman/webapp-1-local.postman_environment.json)
+- [Avaliação ISO/IEC 25010 (PDF)](docs/Avaliacao_Qualidade_ISO25010.pdf)
+
 Desarrollo de Aplicaciones Web - URJC (Móstoles) - 2017/2018
 
 [![Go to video](https://i.ytimg.com/vi/LXvQL_JV4TI/maxresdefault.jpg)](https://youtu.be/LXvQL_JV4TI)
@@ -134,7 +142,7 @@ Here you can add a new list, delete a created list and also create a PDF with al
 
 ### 1. How to use SPA aplication with Angular
 
-[Angular usage](/Angular/README.md)
+[Angular usage](Angular/README.md)
 
 ### 2. Diagrams
 

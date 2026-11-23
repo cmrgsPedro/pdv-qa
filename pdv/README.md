@@ -1,6 +1,6 @@
 # PDV QA — Qualidade e Teste de Software
 
-Repositório da **Entrega 1** do trabalho prático da disciplina de Qualidade e Teste de Software.
+Este módulo reúne o PDV e as suítes unitárias do trabalho. O [README da raiz](../README.md#escopo-da-entrega-2) lista os resultados e as evidências atuais da Entrega 2. A seção da Entrega 1 abaixo preserva o histórico.
 
 O trabalho utiliza dois sistemas, conforme autorizado pela professora:
 
@@ -74,7 +74,7 @@ Clone o fork do grupo e acesse a pasta do projeto:
 
 ```sh
 git clone https://github.com/cmrgsPedro/pdv-qa.git
-cd pdv-qa
+cd pdv-qa/pdv
 ```
 
 Suba a aplicação:
