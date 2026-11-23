@@ -151,17 +151,16 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Validação:** O Codex executou o arquivo desenvolvido por Pedro em uma cópia temporária do PDV. Os 33 testes passaram, o JaCoCo registrou 38/38 ramos cobertos e o PIT confirmou 60/66 mutantes mortos, sem timeouts na medição final.
 - **Evidências:** [PR #20](https://github.com/cmrgsPedro/pdv-qa/pull/20), [Surefire](../evidencias/venda-service/surefire.txt), [JaCoCo](../evidencias/venda-service/jacoco.csv) e [PIT](../evidencias/venda-service/pitest-mutations.xml).
 
-## Interação 014 — Testes de sistema (Selenium) dos casos manuais
+## Interação 014 — Automação Selenium e revisão do U4
 
-- **Data:** 22/11/2026
-- **Responsável:** Arthur Jardim Antunes Ferreira (infraestrutura e U1), Pedro Campos Camargos (U2), João Paulo Alves da Silveira (U3), Rodrigo Lima de Albuquerque (U4)
-- **Ferramenta:** Claude (Claude Code)
-- **Atividade:** Automatizar com Selenium os casos manuais U1 a U4 no `webapp-1`.
-- **Prompt resumido:** Automatizar os testes manuais do PDF para rodar no `webapp-1`.
-- **Resultado obtido:** Classe base `TestE2EBase` e automações de U1 a U4 na branch principal. O [PR #23](https://github.com/cmrgsPedro/pdv-qa/pull/23) adicionou seis testes do U4. Três cobrem perfil, edição de e-mail e criação de lista. Os outros três verificam o comportamento esperado das issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11) e têm a tag `defeito-conhecido`.
-- **Decisão da equipe:** Documentar a execução da suíte principal com exclusão explícita da tag e uma execução separada para os três casos marcados.
-- **Validação:** A equipe relatou que a falha de persistência do e-mail da issue #10 não se reproduziu na reexecução manual anterior. Ainda falta publicar os resultados das duas execuções com o U4 incorporado à branch principal.
-
+- **Data:** 22/11/2026, com revisão posterior ao PR #23.
+- **Responsáveis:** Arthur Jardim Antunes Ferreira (infraestrutura e U1), Pedro Campos Camargos (U2), João Paulo Alves da Silveira (U3) e Rodrigo Lima de Albuquerque (U4).
+- **Ferramenta:** Claude Code na automação e Codex na revisão da configuração e da documentação.
+- **Atividade:** Automatizar os casos manuais U1 a U4 e revisar como os testes do U4 são selecionados.
+- **Prompt resumido:** Verificar se os cenários marcados como `defeito-conhecido` ficam separados da execução principal e ajustar as instruções do README.
+- **Resultado obtido:** O U4 foi incluído com seis testes. Três cobrem perfil, alteração de e-mail e criação de lista. Os outros três verificam o comportamento esperado das issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11). A revisão identificou que o `pom.xml` não exclui a tag `defeito-conhecido` por padrão.
+- **Decisão da equipe:** Usar um filtro explícito no comando da suíte principal e documentar um comando separado para reproduzir os defeitos conhecidos.
+- **Validação:** A classe de teste, a configuração do Maven e os comandos documentados foram conferidos. A publicação dos resultados das duas execuções continua pendente. [PR #23](https://github.com/cmrgsPedro/pdv-qa/pull/23)
 
 ## Interação 015 — Adicionando testes extras E2E
 
