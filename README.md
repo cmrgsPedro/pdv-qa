@@ -117,7 +117,7 @@ target/site/jacoco/index.html
 - [Pull requests do projeto](https://github.com/cmrgsPedro/pdv-qa/pulls?q=is%3Apr)
 - [Avaliação de qualidade ISO/IEC 25010 do Webapp-1 (PDF)](webapp-1/docs/Avaliacao_Qualidade_ISO25010.pdf)
 - [Inspeção de código do PDV — análise inicial e comparação local das propostas](pdv/docs/evidencias/inspecao-codigo/README.md).
-- Slides da apresentação: pendentes.
+- Slides da Entrega 2: [PDF](docs/entrega-2/apresentacao/Entrega-2-Apresentacao.pdf) e [PowerPoint editável](docs/entrega-2/apresentacao/Entrega-2-Apresentacao.pptx).
 
 ## Repositórios utilizados
 
