@@ -10,14 +10,14 @@
   "resultados": [
     {
       "execucao": 1,
-      "data": "2026-11-23T00:54:33.646Z",
+      "data": "2026-11-23T01:07:26.490Z",
       "requisicoes": {
-        "total": 10,
+        "total": 19,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 18,
+        "total": 36,
         "pending": 0,
         "failed": 2
       },
@@ -28,7 +28,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 29"
+          "detalhe": "expected undefined to deeply equal 35"
         }
       ],
       "casos": [
@@ -127,6 +127,132 @@
           ]
         },
         {
+          "caso": "INT-06 · Listar o catálogo paginado",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A primeira página ordenada pelo ID contém o filme de teste",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-06 · Consultar o filme mais recente",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O limite de um filme retorna o cadastro mais recente",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-07 · Consultar relacionados de um filme sem gênero",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme sem gêneros não tem relacionados",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-08 · Publicar comentário",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O comentário criado tem ID e preserva o texto enviado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-08 · Consultar comentário persistido",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o comentário gravado para o filme",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Confirmar ausência do filme antes da avaliação",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme ainda não avaliado fica fora do ranking",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Avaliar o filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A avaliação criada preserva a nota enviada",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Consultar avaliação persistida",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta preserva o ID, a nota e o filme da avaliação",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Consultar ranking de filmes avaliados",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme avaliado aparece no ranking",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -138,7 +264,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 29"
+              "detalhe": "expected undefined to deeply equal 35"
             }
           ]
         },
@@ -170,14 +296,14 @@
     },
     {
       "execucao": 2,
-      "data": "2026-11-23T00:54:34.088Z",
+      "data": "2026-11-23T01:07:27.211Z",
       "requisicoes": {
-        "total": 10,
+        "total": 19,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 18,
+        "total": 36,
         "pending": 0,
         "failed": 2
       },
@@ -188,7 +314,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 30"
+          "detalhe": "expected undefined to deeply equal 36"
         }
       ],
       "casos": [
@@ -287,6 +413,132 @@
           ]
         },
         {
+          "caso": "INT-06 · Listar o catálogo paginado",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A primeira página ordenada pelo ID contém o filme de teste",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-06 · Consultar o filme mais recente",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O limite de um filme retorna o cadastro mais recente",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-07 · Consultar relacionados de um filme sem gênero",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme sem gêneros não tem relacionados",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-08 · Publicar comentário",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O comentário criado tem ID e preserva o texto enviado",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-08 · Consultar comentário persistido",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta retorna o comentário gravado para o filme",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Confirmar ausência do filme antes da avaliação",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme ainda não avaliado fica fora do ranking",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Avaliar o filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A avaliação criada preserva a nota enviada",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Consultar avaliação persistida",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A consulta preserva o ID, a nota e o filme da avaliação",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-09 · Consultar ranking de filmes avaliados",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "O filme avaliado aparece no ranking",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -298,7 +550,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 30"
+              "detalhe": "expected undefined to deeply equal 36"
             }
           ]
         },
@@ -328,5 +580,12 @@
         }
       ]
     }
-  ]
+  ],
+  "coberturaDeOperacoes": {
+    "escopo": "ApiFilmController",
+    "mapeadas": 16,
+    "exercitadas": 13,
+    "percentualExercitado": 81.25,
+    "aprovadas": 12
+  }
 }

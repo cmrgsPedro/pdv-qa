@@ -250,6 +250,11 @@ No PowerShell, defina as variáveis com `$env:ET_EUS_API = "http://localhost:444
 ## Testes de integração
  
 A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
+A meta de cobertura definida pelo grupo é de 80% das operações do controlador
+de filmes. A coleção exercita **13 de 16 operações (81,25%)**, contando cada
+combinação de método HTTP e rota uma vez. As três operações fora da coleção
+são a listagem administrativa, o gráfico de avaliações e a exclusão individual
+de comentário.
 
 | Caso | O que verifica |
 | --- | --- |
@@ -258,6 +263,10 @@ A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
 | INT-03 | Remoção do registro criado e retorno de HTTP 404 na consulta posterior. |
 | INT-04 | Atualização de sinopse e ano, com leitura posterior dos dados alterados. |
 | INT-05 | Busca paginada pelo título encontra o filme atualizado e fica vazia após a remoção. |
+| INT-06 | Catálogo paginado por ID e consulta do filme mais recente. |
+| INT-07 | Consulta de relacionados para um filme sem gêneros associados. |
+| INT-08 | Publicação e consulta do comentário persistido. |
+| INT-09 | Registro e consulta da avaliação, com comparação do ranking antes e depois da avaliação. |
 
 - [Coleção Postman](webapp-1/postman/webapp-1-integration.postman_collection.json)
 - [Ambiente local de exemplo](webapp-1/postman/webapp-1-local.postman_environment.json)
@@ -271,16 +280,18 @@ A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
 
 2. No Postman, importe a coleção e o ambiente **Webapp-1 Local**. Selecione o
    ambiente, mantenha `base_url` como `http://localhost:8000` e preencha
-   `admin_user` e `admin_password` com uma conta administradora do Webapp-1
+   `admin_user` e `admin_password` com uma conta local do Webapp-1 com as funções `ROLE_ADMIN` e `ROLE_USER`
    no ambiente local de testes.
-3. Execute a coleção inteira com **Run collection**. A sequência HTTP esperada é
-   `200, 200, 226, 200, 200, 200, 200, 200, 404, 200`. A coleção cria um filme com nome
-   `qa-postman-<id>` e remove esse filme ao final.
+3. Execute a coleção inteira com **Run collection**, em uma instância local de
+   testes sem cadastros simultâneos. São 19 requisições e 36 verificações.
+   A coleção cria um filme com nome `qa-postman-<id>`, publica um comentário e
+   uma avaliação nesse filme e remove o registro de teste ao final.
 
 Se a execução for interrompida após o cadastro, use o valor de `film_name` para
 localizar e remover somente o filme dessa execução no ambiente local.
 
-Nas duas execuções registradas, passaram 16 das 18 verificações. A API respondeu com HTTP `500` na remoção,
+Em cada uma das duas execuções, passaram **34 de 36 verificações**, com
+**12 das 13 operações exercitadas aprovadas**. A API respondeu com HTTP `500` na remoção,
 embora a consulta posterior tenha retornado `404`. O log indica falha ao
 serializar a resposta depois da exclusão. A coleção registra a divergência
 como falha e mantém `200` como resultado esperado para o `DELETE`.

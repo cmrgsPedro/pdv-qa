@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Webapp-1 — Integração de filmes",
-    "description": "Execute a coleção inteira contra o Webapp-1 local com MySQL. Cada execução usa um filme próprio e verifica cadastro, duplicidade, atualização, busca paginada e remoção.",
+    "description": "Execute contra o Webapp-1 local com MySQL. A coleção verifica cadastro, duplicidade, atualização, consultas do catálogo, comentários, avaliações, busca e remoção de um filme próprio de cada execução.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -15,6 +15,8 @@
             "exec": [
               "const nome = 'qa-postman-' + pm.variables.replaceIn('{{$guid}}');",
               "pm.collectionVariables.unset('film_id');",
+              "pm.collectionVariables.unset('comment_id');",
+              "pm.collectionVariables.unset('rating_id');",
               "pm.collectionVariables.set('film_name', nome);",
               "pm.variables.set('film_name', nome);"
             ]
@@ -444,6 +446,536 @@
       "response": []
     },
     {
+      "name": "INT-06 · Listar o catálogo paginado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A primeira página ordenada pelo ID contém o filme de teste\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.number).to.eql(0);",
+              "    pm.expect(pagina.size).to.eql(1);",
+              "    pm.expect(pagina.content).to.have.lengthOf(1);",
+              "    pm.expect(pagina.content[0].id).to.eql(pm.collectionVariables.get('film_id'));",
+              "    pm.expect(pagina.content[0].name).to.eql(pm.collectionVariables.get('film_name'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas?page=0&size=1&sort=id,desc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "1"
+            },
+            {
+              "key": "sort",
+              "value": "id,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-06 · Consultar o filme mais recente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O limite de um filme retorna o cadastro mais recente\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const filmes = pm.response.json();",
+              "    pm.expect(filmes).to.have.lengthOf(1);",
+              "    pm.expect(filmes[0].id).to.eql(pm.collectionVariables.get('film_id'));",
+              "    pm.expect(filmes[0].name).to.eql(pm.collectionVariables.get('film_name'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/ultimas/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "ultimas",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-07 · Consultar relacionados de um filme sem gênero",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O filme sem gêneros não tem relacionados\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.expect(pm.collectionVariables.get('film_id')).to.be.a('number').and.above(0);",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.totalElements).to.eql(0);",
+              "    pm.expect(pagina.content).to.deep.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/relacionadas/{{film_id}}?page=0&size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "relacionadas",
+            "{{film_id}}"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-08 · Publicar comentário",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O comentário criado tem ID e preserva o texto enviado\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const resposta = pm.response.json();",
+              "    pm.expect(resposta.id).to.be.a('number').and.above(0);",
+              "    pm.expect(resposta.comment).to.eql(\"Comentário criado pela coleção de integração\");",
+              "    pm.collectionVariables.set('comment_id', resposta.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/comentarios/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "comentarios",
+            "{{film_name}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"comment\": \"Comentário criado pela coleção de integração\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-08 · Consultar comentário persistido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A consulta retorna o comentário gravado para o filme\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const id = pm.collectionVariables.get('comment_id');",
+              "    pm.expect(id).to.be.a('number').and.above(0);",
+              "    const comentarios = pm.response.json();",
+              "    pm.expect(comentarios).to.have.lengthOf(1);",
+              "    pm.expect(comentarios[0].id).to.eql(id);",
+              "    pm.expect(comentarios[0].comment).to.eql(\"Comentário criado pela coleção de integração\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/comentarios/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "comentarios",
+            "{{film_name}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-09 · Confirmar ausência do filme antes da avaliação",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O filme ainda não avaliado fica fora do ranking\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const id = pm.collectionVariables.get('film_id');",
+              "    pm.expect(id).to.be.a('number').and.above(0);",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.number).to.eql(0);",
+              "    pm.expect(pagina.content.some(filme => filme.id === id)).to.eql(false);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/mejorvaloradas?page=0&size=100",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "mejorvaloradas"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-09 · Avaliar o filme",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A avaliação criada preserva a nota enviada\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const avaliacao = pm.response.json();",
+              "    pm.expect(avaliacao.id).to.be.a('number').and.above(0);",
+              "    pm.expect(avaliacao.points).to.eql(4.5);",
+              "    pm.expect(avaliacao.film.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.collectionVariables.set('rating_id', avaliacao.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/puntos/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "puntos",
+            "{{film_name}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"points\": 4.5\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-09 · Consultar avaliação persistida",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A consulta preserva o ID, a nota e o filme da avaliação\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const id = pm.collectionVariables.get('rating_id');",
+              "    pm.expect(id).to.be.a('number').and.above(0);",
+              "    const avaliacoes = pm.response.json();",
+              "    pm.expect(avaliacoes).to.have.lengthOf(1);",
+              "    pm.expect(avaliacoes[0].id).to.eql(id);",
+              "    pm.expect(avaliacoes[0].points).to.eql(4.5);",
+              "    pm.expect(avaliacoes[0].film.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/puntos/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "puntos",
+            "{{film_name}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-09 · Consultar ranking de filmes avaliados",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"O filme avaliado aparece no ranking\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.number).to.eql(0);",
+              "    pm.expect(pagina.content.some(filme => filme.id === pm.collectionVariables.get('film_id') && filme.name === pm.collectionVariables.get('film_name'))).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/mejorvaloradas?page=0&size=100",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "mejorvaloradas"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "INT-03 · Remover filme de teste",
       "event": [
         {
@@ -609,13 +1141,16 @@
         "type": "text/javascript",
         "exec": [
           "const nome = pm.collectionVariables.get('film_name');",
+          "const id = pm.collectionVariables.get('film_id');",
           "if (nome) pm.variables.set('film_name', nome);",
-          "if (pm.request.method === 'PUT' || pm.request.method === 'DELETE') {",
-          "    const id = pm.collectionVariables.get('film_id');",
-          "    if (typeof nome !== 'string' || !nome.startsWith('qa-postman-') || !Number.isInteger(id) || id < 1) {",
-          "        console.warn('Requisição ignorada porque o cadastro do filme de teste não foi confirmado.');",
-          "        pm.execution.skipRequest();",
-          "    }",
+          "if (id) pm.variables.set('film_id', id);",
+          "const metodo = pm.request.method;",
+          "const recurso = pm.request.url.path[2];",
+          "const exigeFilme = metodo === 'PUT' || metodo === 'DELETE' ||",
+          "    (metodo === 'POST' && (recurso === 'comentarios' || recurso === 'puntos'));",
+          "if (exigeFilme && (typeof nome !== 'string' || !nome.startsWith('qa-postman-') || !Number.isInteger(id) || id < 1)) {",
+          "    console.warn('Requisição ignorada porque o cadastro do filme de teste não foi confirmado.');",
+          "    pm.execution.skipRequest();",
           "}"
         ]
       }
