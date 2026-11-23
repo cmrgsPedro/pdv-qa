@@ -26,10 +26,10 @@ Foram implementados **88 testes unitários** com JUnit 4 e Mockito, distribuído
 
 | Classe | Integrante | Quantidade de testes | Código | Documentação |
 |---|---|---:|---|---|
-| `VendaService` | Pedro | 28 | [VendaServiceTest.java](src/test/java/net/originmobi/pdv/service/VendaServiceTest.java) | [Testes_Unitarios_VendaService_Pedro.docx](docs/casos-de-testes/pedro-camargos/Testes_Unitarios_VendaService_Pedro.docx) |
-| `CaixaService` | Arthur | 22 | [CaixaServiceTest.java](src/test/java/net/originmobi/pdv/service/CaixaServiceTest.java) | [Testes_Unitarios_CaixaService_Arthur.docx](docs/casos-de-testes/arthur-jardim/Testes_Unitarios_CaixaService_Arthur.docx) |
-| `RecebimentoService` | Rodrigo | 21 | [RecebimentoServiceTest.java](src/test/java/net/originmobi/pdv/service/RecebimentoServiceTest.java) | [Testes_Unitarios_RecebimentoService_Rodrigo.docx](docs/casos-de-testes/rodrigo-lima/Testes_Unitarios_RecebimentoService_Rodrigo.docx) |
-| `NotaFiscalItemService` | João Paulo | 17 | [NotaFiscalItemServiceTest.java](src/test/java/net/originmobi/pdv/service/notafiscal/NotaFiscalItemServiceTest.java) | [Testes_Unitarios_NotaFiscalItemService_JoaoPaulo.docx](docs/casos-de-testes/joao-paulo-alves/Testes_Unitarios_NotaFiscalItemService_JoaoPaulo.docx) |
+| `VendaService` | Pedro | 28 | [VendaServiceTest.java](pdv/src/test/java/net/originmobi/pdv/service/VendaServiceTest.java) | [Testes_Unitarios_VendaService_Pedro.docx](pdv/docs/casos-de-testes/pedro-camargos/Testes_Unitarios_VendaService_Pedro.docx) |
+| `CaixaService` | Arthur | 22 | [CaixaServiceTest.java](pdv/src/test/java/net/originmobi/pdv/service/CaixaServiceTest.java) | [Testes_Unitarios_CaixaService_Arthur.docx](pdv/docs/casos-de-testes/arthur-jardim/Testes_Unitarios_CaixaService_Arthur.docx) |
+| `RecebimentoService` | Rodrigo | 21 | [RecebimentoServiceTest.java](pdv/src/test/java/net/originmobi/pdv/service/RecebimentoServiceTest.java) | [Testes_Unitarios_RecebimentoService_Rodrigo.docx](pdv/docs/casos-de-testes/rodrigo-lima/Testes_Unitarios_RecebimentoService_Rodrigo.docx) |
+| `NotaFiscalItemService` | João Paulo | 17 | [NotaFiscalItemServiceTest.java](pdv/src/test/java/net/originmobi/pdv/service/notafiscal/NotaFiscalItemServiceTest.java) | [Testes_Unitarios_NotaFiscalItemService_JoaoPaulo.docx](pdv/docs/casos-de-testes/joao-paulo-alves/Testes_Unitarios_NotaFiscalItemService_JoaoPaulo.docx) |
 
 Na execução registrada pela equipe, todos os 88 testes passaram. O relatório JaCoCo deve ser consultado como evidência da cobertura e não deve ser substituído apenas pela quantidade de casos.
 
@@ -45,11 +45,11 @@ Na execução registrada pela equipe, todos os 88 testes passaram. O relatório 
 
 Evidências:
 
-- [Caso manual — Arthur](docs/casos-de-testes/arthur-jardim/caso-teste-manual-arthur.pdf)
-- [Caso manual — Pedro](docs/casos-de-testes/pedro-camargos/caso-teste-manual-pedro.pdf)
-- [Caso manual — João Paulo](docs/casos-de-testes/joao-paulo-alves/caso-teste-manual-joao.pdf)
-- [Caso manual — Rodrigo](docs/casos-de-testes/rodrigo-lima/caso-teste-manual-rodrigo.pdf)
-- [Relatório do TestLink](docs/casos-de-testes/testlink/TestLink%20QeT.pdf)
+- [Caso manual — Arthur](pdv/docs/casos-de-testes/arthur-jardim/caso-teste-manual-arthur.pdf)
+- [Caso manual — Pedro](pdv/docs/casos-de-testes/pedro-camargos/caso-teste-manual-pedro.pdf)
+- [Caso manual — João Paulo](pdv/docs/casos-de-testes/joao-paulo-alves/caso-teste-manual-joao.pdf)
+- [Caso manual — Rodrigo](pdv/docs/casos-de-testes/rodrigo-lima/caso-teste-manual-rodrigo.pdf)
+- [Relatório do TestLink](pdv/docs/casos-de-testes/testlink/TestLink%20QeT.pdf)
 
 ### Defeitos encontrados
 
@@ -74,7 +74,7 @@ Clone o fork do grupo e acesse a pasta do projeto:
 
 ```sh
 git clone https://github.com/cmrgsPedro/pdv-qa.git
-cd pdv
+cd pdv-qa/pdv
 ```
 
 Suba a aplicação:
@@ -113,9 +113,11 @@ target/site/jacoco/index.html
 ## Documentação da entrega
 
 - [Plano de Testes](https://docs.google.com/document/d/1UhuZOBFoVzsn5rlR_CHp07ZcGQoJGE8A_z19Ww1Lje4/edit?usp=sharing)
-- [Registro de uso de IA](docs/ai/AI-LOG.md)
+- [Registro de uso de IA](pdv/docs/ai/AI-LOG.md)
 - [Pull requests do projeto](https://github.com/cmrgsPedro/pdv-qa/pulls?q=is%3Apr)
-- Apresentação: será adicionada ao repositório após a consolidação dos slides.
+- [Avaliação de qualidade ISO/IEC 25010 do Webapp-1 (PDF)](webapp-1/docs/Avaliacao_Qualidade_ISO25010.pdf)
+- Inspeção de código: pendente.
+- Slides da apresentação: pendentes.
 
 ## Repositórios utilizados
 
@@ -150,7 +152,7 @@ Para a segunda entrega do trabalho da disciplina de Qualidade e Teste de Softwar
 
 - Git
 - Docker Desktop com Docker Compose v2
-- Portas `8080`, `3306` e `5005` disponíveis
+- Portas `8000` disponível
 
 ### Passo a passo
 
@@ -161,13 +163,13 @@ git clone https://github.com/cmrgsPedro/pdv-qa.git
 cd pdv-qa/webapp-1/docker
 ```
 
-2. Suba a aplicação (a primeira execução pode demorar, pois baixa as imagens e compila o projeto):
+2. Suba a aplicação (a primeira execução pode demorar, pois baixa as imagens do Webapp-1 e do MySQL):
 
 ```sh
-docker compose up --build
+docker compose up -d
 ```
 
-3. Após a inicialização, acesse <http://localhost:8080>.
+3. Após a inicialização, acesse <http://localhost:8000>.
 
 4. Para encerrar os contêineres:
 
@@ -182,10 +184,12 @@ Foram acrescentados testes para eliminar mutantes sobreviventes e cobrir decisõ
 | Classe | Integrante | Testes (Entrega 1 → Entrega 2) | Escore de mutação (Pitest) |
 |---|---|---|---|
 | `VendaService` | Pedro | 28 → 33 | 60/66 (90,9%) |
-| `CaixaService` | Arthur | 22 → 27 | 52/54 (96%) |
-| `RecebimentoService` | Rodrigo | 21 → xx | xxxxx |
-| `NotaFiscalItemService` | João Paulo | 17 → xx | xxxxx |
+| `CaixaService` | Arthur | 22 → 27 | 52/54 (96,3%), registrado no log de IA |
+| `RecebimentoService` | Rodrigo | 21 → 27 | 37/39 (94,9%), registrado no log de IA |
+| `NotaFiscalItemService` | João Paulo | 17 → 17 | 35/37 (94,6%), registrado no log de IA |
  
+As quatro suítes contêm 104 métodos de teste. Falta publicar uma execução consolidada da versão final.
+
 Na validação de VendaService em uma cópia do PDV, os 33 testes passaram. O
 JaCoCo registrou 38 de 38 ramos cobertos (100%), e o PIT matou 60 de 66
 mutantes (90,9%). Os seis sobreviventes estão identificados no relatório do PIT.
@@ -214,18 +218,24 @@ Os testes usam Selenium (JUnit 5) e ficam em
 | Caso manual | Responsável | Teste automatizado |
 |---|---|---|
 | U1 — Visualizar comentários de uma série | Arthur | `TestE2EU1VisualizarComentarios` |
+| U2 — Visualizar o trailer de um filme | Pedro | `TestE2EU2TrailerMaisAssistido` |
+| U3 — Pesquisar série por gênero | João Paulo | `TestE2EU3PesquisarSeriePorGenero` |
+| U4 — Editar perfil e gerenciar listas | Rodrigo | [TestE2EU4EditarPerfil](webapp-1/TrackOrJargh/src/test/java/com/trackorjargh/e2e/TestE2EU4EditarPerfil.java) |
 
  
 ### Testes adicionais
  
 | Teste | O que verifica |
 |---|---|
-| `TestE2ERegisterAndLogin` | Cadastro de usuário, ativação da conta e login (relacionado ao caso VU-2 do TestLink) |
+| `TestE2ERegisterAndLogin` | Cadastro, ativação pela rota da aplicação e login. O fluxo está relacionado ao VU-2. |
+| `TestE2ESecurityRoles` | Restrições de acesso por perfil. |
+
+O U4 tem três cenários de perfil, edição de e-mail e criação de lista e três com a tag `defeito-conhecido`, ligados às issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11). Falta publicar os resultados da execução consolidada e da execução separada do U4.
 
  
 ### Como executar os testes E2E
  
-**Pré-requisitos:** Docker Desktop, Java 8 e Maven. Portas `8000` e `3306` livres.
+**Pré-requisitos:** Docker Desktop, Java 8 e Maven. Porta `8000` livre.
  
 1. Suba o webapp-1:
 ```sh
@@ -238,21 +248,28 @@ Confirme que <http://localhost:8000> abre o TrackOrJargh.
 2. Em outro terminal, rode os testes (requer o Google Chrome instalado):
 ```sh
 cd pdv-qa/webapp-1/TrackOrJargh
-mvn test -Dtest="TestE2E*"
+mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
 ```
  
 **Sem Chrome instalado**, use um navegador em contêiner:
  
 ```sh
 docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome
-$env:ET_EUS_API=http://localhost:4444/wd/hub
-$env:SUT_URL=http://host.docker.internal:8000/
-mvn test -Dtest="TestE2E*"
+$env:ET_EUS_API = "http://localhost:4444/wd/hub"
+$env:SUT_URL = "http://host.docker.internal:8000/"
+mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
 ```
  
-No PowerShell, defina as variáveis com `$env:ET_EUS_API = "http://localhost:4444/wd/hub"` e `$env:SUT_URL = "http://host.docker.internal:8000/"`.
  
  
+Para executar apenas os três cenários marcados como defeito conhecido no U4,
+use o comando abaixo no mesmo diretório. O `pom.xml` não exclui essa tag por
+padrão. Por isso, use o filtro explícito acima ao rodar a suíte principal.
+
+```powershell
+mvn test "-Dtest=TestE2EU4EditarPerfil" "-Dgroups=defeito-conhecido"
+```
+
 ## Testes de integração
  
 A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
@@ -301,4 +318,4 @@ Em cada uma das duas execuções, passaram **42 de 44 verificações**, com
 **15 das 16 operações exercitadas aprovadas**. A API respondeu com HTTP `500` na remoção,
 embora a consulta posterior tenha retornado `404`. O log indica falha ao
 serializar a resposta depois da exclusão. A coleção registra a divergência
-como falha e mantém `200` como resultado esperado para o `DELETE`.
+como falha e mantém `200` como resultado esperado para o `DELETE`. O defeito está registrado na [issue #18](https://github.com/cmrgsPedro/pdv-qa/issues/18).
