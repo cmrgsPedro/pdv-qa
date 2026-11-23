@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Teste de sistema de seguranca: mensagens de falha de autenticacao e controle
  * de acesso por papel (ROLE_USER x ROLE_ADMIN).
- * Adaptado dos testes E2E do repositorio de apoio (ver docs/ai/AI-LOG.md).
  */
 public class TestE2ESecurityRoles extends TestE2EBase {
 

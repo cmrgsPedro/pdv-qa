@@ -4,12 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-// import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Teste de sistema: cadastro de usuario, ativacao da conta e login.
- * Adaptado dos testes E2E do repositorio de apoio (ver docs/ai/AI-LOG.md).
  */
 public class TestE2ERegisterAndLogin extends TestE2EBase {
 
