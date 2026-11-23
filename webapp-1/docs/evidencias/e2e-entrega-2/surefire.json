@@ -1,0 +1,104 @@
+{
+  "commit": "84794fbbdd3d9802ce0196ca968248dae84f4c21",
+  "dataLocal": "2026-11-23",
+  "fusoHorario": "America/Sao_Paulo",
+  "ambiente": {
+    "webapp": "codeurjc/webapp-1-master@sha256:4362c27feffc500f8391a7d341bc33ee4593e72ec475b1b4ff0540057c06a120",
+    "selenium": "selenium/standalone-chrome:3.141.59-20210929@sha256:ae50e81aa6f23e0073ac9ca43a6d182081b42a001e1c61e5dcb1e29937767d8a",
+    "chrome": "94.0.4606.61",
+    "banco": "MySQL 5.7 dedicado à execução, em rede Docker interna"
+  },
+  "execucoes": [
+    {
+      "escopo": "Suíte principal",
+      "resumo": {
+        "erro": 1,
+        "aprovado": 9
+      },
+      "casos": [
+        {
+          "classe": "TestE2EFront",
+          "teste": "checkCreateList",
+          "resultado": "erro",
+          "tipo": "org.openqa.selenium.WebDriverException",
+          "observacao": "ERR_CONNECTION_REFUSED no setup. TestE2EFront usa http://localhost:4200/ no navegador; essa interface não estava disponível no ambiente testado."
+        },
+        {
+          "classe": "TestE2ERegisterAndLogin",
+          "teste": "registraAtivaELogaUsuarioNovo",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2ESecurityRoles",
+          "teste": "usuarioComumNaoAcessaAdministracaoEAdminAcessa",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2ESecurityRoles",
+          "teste": "loginInvalidoExibeMensagemDeErro",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU1VisualizarComentarios",
+          "teste": "visualizaComentariosDaSerieNarcos",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU2TrailerMaisAssistido",
+          "teste": "assisteTrailerDoFilmeMelhorAvaliado",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU3PesquisarSeriePorGenero",
+          "teste": "pesquisaSeriesDoGeneroComedia",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "listaCriadaApareceEPermaneceNoPerfil",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "perfilExibeNomeEmailEAvatar",
+          "resultado": "aprovado"
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "emailEditadoApareceAposSalvar",
+          "resultado": "aprovado"
+        }
+      ]
+    },
+    {
+      "escopo": "U4 com tag defeito-conhecido",
+      "resumo": {
+        "falha": 1,
+        "erro": 1,
+        "aprovado": 1
+      },
+      "casos": [
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "listaDeveTerControleParaAdicionarItens",
+          "resultado": "falha",
+          "tipo": "java.lang.AssertionError",
+          "observacao": "Issue #11 reproduzida: não foi encontrado controle para adicionar itens na lista."
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "nomeDoUsuarioDeveSerEditavel",
+          "resultado": "erro",
+          "tipo": "org.openqa.selenium.InvalidElementStateException",
+          "observacao": "Issue #9 reproduzida: o Selenium retornou InvalidElementStateException ao tentar editar o campo de nome."
+        },
+        {
+          "classe": "TestE2EU4EditarPerfil",
+          "teste": "emailEditadoDevePermanecerAposRecarregar",
+          "resultado": "aprovado",
+          "observacao": "Issue #10 não se reproduziu nesta execução: o valor editado permaneceu após recarregar e voltar ao perfil."
+        }
+      ]
+    }
+  ]
+}
