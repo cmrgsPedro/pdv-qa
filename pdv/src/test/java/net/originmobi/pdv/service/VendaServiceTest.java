@@ -1,6 +1,7 @@
 package net.originmobi.pdv.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -35,8 +37,10 @@ import net.originmobi.pdv.enumerado.TituloTipo;
 import net.originmobi.pdv.enumerado.VendaSituacao;
 import net.originmobi.pdv.filter.VendaFilter;
 import net.originmobi.pdv.model.Caixa;
+import net.originmobi.pdv.model.CaixaLancamento;
 import net.originmobi.pdv.model.PagamentoTipo;
 import net.originmobi.pdv.model.Pessoa;
+import net.originmobi.pdv.model.Receber;
 import net.originmobi.pdv.model.Titulo;
 import net.originmobi.pdv.model.Usuario;
 import net.originmobi.pdv.model.Venda;
@@ -330,6 +334,65 @@ public class VendaServiceTest {
 
         expect("Erro ao fechar a venda, chame o suporte",
                 () -> service.fechaVenda(1L, 1L, 10.0, 0.0, 0.0, new String[] {"10"}, new String[] {"1"}));
+    }
+
+    // ---- Testes adicionados na Entrega 2 (matar mutantes sobreviventes) ----
+
+    @Test
+    public void abreVendaNovaGravaDataDeCadastro() {
+        Venda venda = new Venda();
+
+        service.abreVenda(venda);
+
+        assertNotNull(venda.getData_cadastro());
+    }
+
+    @Test
+    public void fechaVendaGravaFormaDePagamentoNaVenda() {
+        Venda venda = vendaComPessoa();
+        prepararFechamento("30", titulo(TituloTipo.DIN), venda);
+
+        service.fechaVenda(1L, 1L, 10.0, 0.0, 0.0, new String[] {"10"}, new String[] {"1"});
+
+        assertNotNull(venda.getPagamentotipo());
+        assertEquals("30", venda.getPagamentotipo().getFormaPagamento());
+    }
+
+    @Test
+    public void receberGeradoCarregaValorTotalComAcrescimoEDesconto() {
+        prepararFechamento("30", titulo(TituloTipo.DIN), vendaComPessoa());
+        ArgumentCaptor<Receber> captor = ArgumentCaptor.forClass(Receber.class);
+
+        service.fechaVenda(1L, 1L, 100.0, 10.0, 25.0, new String[] {"115"}, new String[] {"1"});
+
+        verify(receberServ).cadastrar(captor.capture());
+        assertEquals(Double.valueOf(115.0), captor.getValue().getValor_total());
+        assertEquals("Recebimento referente a venda 1", captor.getValue().getObservacao());
+    }
+
+    @Test
+    public void aPrazoComDuasParcelasNumeraSequenciaEDividePorParcela() {
+        prepararFechamento("30/60", titulo(TituloTipo.DIN), vendaComPessoa());
+
+        // desconto = acrescimo para que o resultado nao dependa da ordem dos dois ajustes
+        service.fechaVenda(1L, 1L, 10.0, 4.0, 4.0, new String[] {"5", "5"}, new String[] {"1", "1"});
+
+        verify(parcelas).gerarParcela(eq(5.0), anyDouble(), anyDouble(), anyDouble(), eq(5.0), any(),
+                anyInt(), eq(1), any(), any());
+        verify(parcelas).gerarParcela(eq(5.0), anyDouble(), anyDouble(), anyDouble(), eq(5.0), any(),
+                anyInt(), eq(2), any(), any());
+    }
+
+    @Test
+    public void lancamentoEmDinheiroUsaValorDaParcelaComAjustes() {
+        prepararDinheiro();
+        ArgumentCaptor<CaixaLancamento> captor = ArgumentCaptor.forClass(CaixaLancamento.class);
+
+        // desconto = acrescimo: o valor lancado deve ser o da propria parcela
+        service.fechaVenda(1L, 1L, 10.0, 1.0, 1.0, new String[] {"10"}, new String[] {"1"});
+
+        verify(lancamentos).lancamento(captor.capture());
+        assertEquals(Double.valueOf(10.0), captor.getValue().getValor());
     }
 
     private void prepararDinheiro() {
