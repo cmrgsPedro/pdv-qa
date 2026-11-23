@@ -5,7 +5,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -188,7 +187,7 @@ public class NotaFiscalItemServiceTest {
         existente.setImpostos(impostoExistente);
         nota.setItens(Collections.singletonList(existente));
         preparar(produto, nota);
-        when(impostos.calcula(eq(20L), eq(50.0), eq(regra), eq('0'), eq(3)))
+        when(impostos.calcula(20L, 50.0, regra, '0', 3))
                 .thenReturn(new NotaFiscalItemImposto());
 
         assertEquals("ok", service.insere(1L, 1L, 3, NotaFiscalTipo.SAIDA));
