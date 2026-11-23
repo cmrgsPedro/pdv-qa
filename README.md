@@ -181,12 +181,18 @@ Foram acrescentados testes para eliminar mutantes sobreviventes e cobrir decisõ
  
 | Classe | Integrante | Testes (Entrega 1 → Entrega 2) | Escore de mutação (Pitest) |
 |---|---|---|---|
-| `VendaService` | Pedro | 28 → xx | xxxxx |
+| `VendaService` | Pedro | 28 → 33 | 60/66 (90,9%) |
 | `CaixaService` | Arthur | 22 → 27 | 52/54 (96%) |
 | `RecebimentoService` | Rodrigo | 21 → xx | xxxxx |
 | `NotaFiscalItemService` | João Paulo | 17 → xx | xxxxx |
  
-Os mutantes que sobreviveram são equivalentes (por exemplo, remoção de `System.out.println`, ou variáveis que nunca são lidas).
+Na validação de VendaService em uma cópia do PDV, os 33 testes passaram. O
+JaCoCo registrou 38 de 38 ramos cobertos (100%), e o PIT matou 60 de 66
+mutantes (90,9%). Os seis sobreviventes estão identificados no relatório do PIT.
+
+Evidências de VendaService: [Surefire](pdv/docs/evidencias/venda-service/surefire.txt),
+[JaCoCo](pdv/docs/evidencias/venda-service/jacoco.csv) e
+[PIT](pdv/docs/evidencias/venda-service/pitest-mutations.xml).
  
 ### Como gerar os relatórios
  
