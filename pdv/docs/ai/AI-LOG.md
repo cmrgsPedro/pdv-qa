@@ -139,17 +139,17 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Decisão da equipe:** Manter os testes existentes, só acrescentar novos; não alterar o código de produção para melhorar métricas.
 - **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
 
-## Interação 013 — Melhoria do `VendaServiceTest`
+## Interação 013 — Melhoria e validação do `VendaServiceTest`
 
-- **Data:** 09/11/2026
-- **Responsável:** Pedro Campos Camargos
-- **Ferramenta:** Claude (Claude Code)
-- **Atividade:** Eliminar mutantes sobreviventes de `VendaService`.
-- **Prompt resumido:** Melhorar a classe de teste a partir do relatório de mutação.
-- **Resultado obtido:** Partida de 50 de 66 mutantes mortos (76%). 5 testes novos (28 → 33): data de cadastro, forma de pagamento gravada, valor do recebimento gerado, numeração das parcelas a prazo e valor do lançamento em dinheiro. Escore medido na validação: 60 de 66 mutantes mortos (90,9%). Os 33 testes passaram e o JaCoCo registrou 38 de 38 ramos cobertos. Defeitos achados por leitura de código: desconto e acréscimo passados em ordem trocada a `aprazo` e `avistaDinheiro`, soma de parcelas com `vlParcelas[i]` em vez de `[aux]` e `Optional.get()` sem verificação.
-- **Decisão da equipe:** Os novos testes usam desconto igual a acréscimo para não fixar o comportamento invertido.
-- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
-- **Evidências:** [Surefire](../evidencias/venda-service/surefire.txt), [JaCoCo](../evidencias/venda-service/jacoco.csv) e [PIT](../evidencias/venda-service/pitest-mutations.xml).
+- **Data:** 09/11/2026, com validação posterior registrada no PR #20.
+- **Responsável:** Pedro Campos Camargos.
+- **Ferramenta:** Claude Code e Codex.
+- **Atividade:** Reforçar os testes unitários de `VendaService` e verificar a meta de mutação da Entrega 2.
+- **Prompt resumido:** Analisar os mutantes sobreviventes e, após a inclusão dos novos casos, revisar e executar a suíte com Maven, JaCoCo e PIT.
+- **Resultado obtido:** Foram mantidos os 28 testes e acrescentados cinco casos sobre data de cadastro, forma de pagamento, valor a receber, sequência das parcelas e lançamento em dinheiro. O escore passou de 50/66 para 60/66 mutantes mortos (90,9%).
+- **Decisão da equipe:** Integrar os cinco testes e publicar os relatórios. Nos cenários de parcelamento e dinheiro, foram mantidos desconto e acréscimo iguais para evitar fixar como esperado o comportamento suspeito de inversão desses argumentos.
+- **Validação:** O Codex executou o arquivo desenvolvido por Pedro em uma cópia temporária do PDV. Os 33 testes passaram, o JaCoCo registrou 38/38 ramos cobertos e o PIT confirmou 60/66 mutantes mortos, sem timeouts na medição final.
+- **Evidências:** [PR #20](https://github.com/cmrgsPedro/pdv-qa/pull/20), [Surefire](../evidencias/venda-service/surefire.txt), [JaCoCo](../evidencias/venda-service/jacoco.csv) e [PIT](../evidencias/venda-service/pitest-mutations.xml).
 
 ## Interação 014 — Testes de sistema (Selenium) dos casos manuais
 
@@ -175,14 +175,15 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 
 ## Interação 016 — Testes de integração com Postman
 
-- **Data:** 22/11/2026
-- **Responsável:** Pedro Campos Camargos
-- **Ferramenta:** Codex
-- **Atividade:** Planejar, implementar e validar a coleção de integração do Webapp-1.
-- **Prompt resumido:** Implementar os testes de integração no Postman e ampliar a cobertura para todas as operações da API de filmes.
-- **Resultado obtido:** Coleção, ambiente de exemplo e instruções registrados no [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17).
-- **Decisão da equipe:** Manter a expectativa HTTP 200 para a exclusão do filme e registrar o retorno HTTP 500 observado na [issue #18](https://github.com/cmrgsPedro/pdv-qa/issues/18).
-- **Validação:** As duas execuções com Newman exercitaram 16 operações e aprovaram 42 das 44 verificações em cada rodada. [Evidência das execuções](../../../webapp-1/postman/evidencias/execucao-newman.json).
+- **Data:** 22/11/2026.
+- **Responsável:** Pedro Campos Camargos.
+- **Ferramenta:** Codex.
+- **Atividade:** Planejar, implementar e validar os testes de integração da API de filmes do Webapp-1.
+- **Prompt resumido:** Criar uma coleção Postman reproduzível e ampliar os testes até exercitar todas as operações do controlador de filmes.
+- **Resultado obtido:** Foram criados a coleção, o ambiente local de exemplo, as instruções de execução e o relatório Newman. A coleção exercita 16 de 16 operações da API de filmes.
+- **Decisão da equipe:** Manter HTTP 200 como resultado esperado para a exclusão do filme. A API retorna HTTP 500, embora a consulta seguinte retorne HTTP 404 e confirme a remoção. O defeito foi registrado na [issue #18](https://github.com/cmrgsPedro/pdv-qa/issues/18).
+- **Validação:** A coleção foi executada duas vezes com Newman contra o Webapp-1 local e o MySQL do Docker Compose. Cada execução teve 15 de 16 operações aprovadas e 42 de 44 verificações passando. As duas falhas reproduziram o mesmo defeito de exclusão.
+- **Evidências:** [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17) e [relatório Newman](../../../webapp-1/postman/evidencias/execucao-newman.json).
 
 ## Limites e responsabilidade da equipe
 
