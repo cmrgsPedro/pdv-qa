@@ -112,11 +112,12 @@ target/site/jacoco/index.html
 
 ## Documentação da entrega
 
-- [Plano de Testes](https://docs.google.com/document/d/1UhuZOBFoVzsn5rlR_CHp07ZcGQoJGE8A_z19Ww1Lje4/edit?usp=sharing)
-- [Registro de uso de IA](pdv/docs/ai/AI-LOG.md)
+- Plano de testes da Entrega 2 ([Google Docs](https://docs.google.com/document/d/19Wl7XQJcOBgAk6h_dRGI0uCHhh3KWuan08E569DdKt4/edit?usp=drivesdk) · [DOCX](docs/entrega-2/Plano-de-Testes-Entrega-2.docx)).
+- [Plano de testes da Entrega 1](https://docs.google.com/document/d/1UhuZOBFoVzsn5rlR_CHp07ZcGQoJGE8A_z19Ww1Lje4/edit?usp=sharing).
+- [Registro de uso de IA](docs/ai/AI-LOG.md)
 - [Pull requests do projeto](https://github.com/cmrgsPedro/pdv-qa/pulls?q=is%3Apr)
-- [Avaliação de qualidade ISO/IEC 25010 do Webapp-1 (PDF)](webapp-1/docs/Avaliacao_Qualidade_ISO25010.pdf)
-- [Inspeção de código do PDV — análise inicial e comparação local das propostas](pdv/docs/evidencias/inspecao-codigo/README.md).
+- Avaliação ISO/IEC 25010 do Webapp-1 ([Google Docs](https://docs.google.com/document/d/1q7oHpq-fhijIOy0WN2kp7b_1hti63e58NppjqXJtZxY/edit?usp=drivesdk) · [DOCX](docs/entrega-2/Avaliacao-ISO-25010-Webapp-1.docx) · [PDF](webapp-1/docs/Avaliacao_Qualidade_ISO25010.pdf)).
+- Relatório de inspeção do PDV ([Google Docs](https://docs.google.com/document/d/1UVk8fbsfFbt95i4F1Qch-OXy8_zAQ5tCQZ_3Y6c06kA/edit?usp=drivesdk) · [DOCX](docs/entrega-2/Relatorio-de-Inspecao-PDV.docx) · [capturas e relatórios do SonarQube](pdv/docs/evidencias/inspecao-codigo/README.md)).
 - Slides da Entrega 2: [PDF](docs/entrega-2/apresentacao/Entrega-2-Apresentacao.pdf) e [PowerPoint editável](docs/entrega-2/apresentacao/Entrega-2-Apresentacao.pptx).
 
 ## Repositórios utilizados
@@ -188,7 +189,7 @@ Foram acrescentados testes para eliminar mutantes sobreviventes e cobrir decisõ
 | `RecebimentoService` | Rodrigo | 21 → 27 | 37/39 (94,9%) |
 | `NotaFiscalItemService` | João Paulo | 17 → 17 | 35/37 (94,6%) |
  
-As quatro suítes passaram na rodada de referência da Entrega 2, com 104 testes aprovados. Os resultados por classe e os relatórios das ferramentas estão na [execução consolidada dos unitários](pdv/docs/evidencias/unitarios-entrega-2/README.md).
+A [rodada de referência](pdv/docs/evidencias/unitarios-entrega-2/README.md) aprovada com 104 testes é a mesma usada nos slides. A regressão de RecebimentoService acrescentou um caso, levando a suíte dessa classe a 28 testes e o total a 105. O [registro posterior à correção](pdv/docs/evidencias/inspecao-codigo/sonar-depois.json) identifica essa execução.
 
 Na validação de VendaService em uma cópia do PDV, os 33 testes passaram. O
 JaCoCo registrou 38 de 38 ramos cobertos (100%), e o PIT matou 60 de 66

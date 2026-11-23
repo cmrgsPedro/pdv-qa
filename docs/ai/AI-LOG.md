@@ -149,7 +149,7 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Resultado obtido:** Foram mantidos os 28 testes e acrescentados cinco casos sobre data de cadastro, forma de pagamento, valor a receber, sequência das parcelas e lançamento em dinheiro. O escore passou de 50/66 para 60/66 mutantes mortos (90,9%).
 - **Decisão da equipe:** Integrar os cinco testes e publicar os relatórios. Nos cenários de parcelamento e dinheiro, foram mantidos desconto e acréscimo iguais para evitar fixar como esperado o comportamento suspeito de inversão desses argumentos.
 - **Validação:** O Codex executou o arquivo desenvolvido por Pedro em uma cópia temporária do PDV. Os 33 testes passaram, o JaCoCo registrou 38/38 ramos cobertos e o PIT confirmou 60/66 mutantes mortos, sem timeouts na medição final.
-- **Evidências:** [PR #20](https://github.com/cmrgsPedro/pdv-qa/pull/20), [Surefire](../evidencias/venda-service/surefire.txt), [JaCoCo](../evidencias/venda-service/jacoco.csv) e [PIT](../evidencias/venda-service/pitest-mutations.xml).
+- **Evidências:** [PR #20](https://github.com/cmrgsPedro/pdv-qa/pull/20), [Surefire](../../pdv/docs/evidencias/venda-service/surefire.txt), [JaCoCo](../../pdv/docs/evidencias/venda-service/jacoco.csv) e [PIT](../../pdv/docs/evidencias/venda-service/pitest-mutations.xml).
 
 ## Interação 014 — Automação Selenium e revisão do U4
 
@@ -182,7 +182,7 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Resultado obtido:** Foram criados a coleção, o ambiente local de exemplo, as instruções de execução e o relatório Newman. A coleção exercita 16 de 16 operações da API de filmes.
 - **Decisão da equipe:** Manter HTTP 200 como resultado esperado para a exclusão do filme. A API retorna HTTP 500, embora a consulta seguinte retorne HTTP 404 e confirme a remoção. O defeito foi registrado na [issue #18](https://github.com/cmrgsPedro/pdv-qa/issues/18).
 - **Validação:** A coleção foi executada duas vezes com Newman contra o Webapp-1 local e o MySQL do Docker Compose. Cada execução teve 15 de 16 operações aprovadas e 42 de 44 verificações passando. As duas falhas reproduziram o mesmo defeito de exclusão.
-- **Evidências:** [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17) e [relatório Newman](../../../webapp-1/postman/evidencias/execucao-newman.json).
+- **Evidências:** [PR #17](https://github.com/cmrgsPedro/pdv-qa/pull/17) e [relatório Newman](../../webapp-1/postman/evidencias/execucao-newman.json).
 
 ## Interação 017 — Análise inicial no SonarQube
 
@@ -193,7 +193,7 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Resultado obtido:** O SonarQube registrou 29 apontamentos nas quatro classes selecionadas. O Codex exportou os resultados, capturou a visão geral e as quatro telas filtradas e documentou sugestões de correção.
 - **Decisão:** Usar as quatro classes de produção já atribuídas no trabalho e guardar a análise do commit `eee1cc9` para comparação com a rodada posterior aos PRs.
 - **Validação:** Os 104 testes unitários passaram durante a análise. Os totais por classe foram conferidos na exportação da API e nas telas do SonarQube.
-- **Evidência:** [Análise inicial do PDV](../evidencias/inspecao-codigo/README.md).
+- **Evidência:** [Análise inicial do PDV](../../pdv/docs/evidencias/inspecao-codigo/README.md).
 
 ## Interação 018 — Correções propostas para revisão
 
@@ -203,6 +203,18 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Resultado:** Injeção por construtor nas quatro classes e comparação dos IDs de cliente por valor em `RecebimentoService`.
 - **Validação inicial:** A regressão de IDs falhou com a implementação anterior e passou após a correção. As quatro suítes rodaram juntas com 105 testes aprovados.
 - **Colaboração:** As propostas foram preparadas nesta rodada com assistência do Codex. A revisão de cada integrante deve ser registrada pelo próprio revisor no GitHub.
+
+## Interação 019 — Documentação final da Entrega 2
+
+- **Data:** 23/11/2026.
+- **Solicitação:** Pedro Camargos.
+- **Ferramenta:** Codex, com a skill Humanizer.
+- **Atividade:** Preparar um novo plano de testes e as versões editáveis da avaliação ISO/IEC 25010 e da inspeção do PDV.
+- **Instrução:** Consolidar o plano, revisar a redação dos três documentos, mover o log para a raiz e vincular os artefatos no README por pull request.
+- **Resultado:** Três Google Docs e as cópias DOCX no repositório. O plano identifica as rodadas de 104 e 105 unitários.
+- **Decisão:** Usar o PDF final da ISO e o relatório do SonarQube como fontes para as versões editáveis. O novo plano foi criado em um documento separado.
+- **Validação:** Conferência dos dados com os relatórios do repositório, revisão das páginas renderizadas e leitura dos textos e tabelas depois da importação no Google Docs.
+- **Evidência:** [Documentação da entrega](../../README.md#documentação-da-entrega).
 
 ## Limites e responsabilidade da equipe
 
