@@ -1,0 +1,33 @@
+{
+  "commit": "84794fbbdd3d9802ce0196ca968248dae84f4c21",
+  "dataLocal": "2026-11-23",
+  "fusoHorario": "America/Sao_Paulo",
+  "escopo": "Quatro suítes unitárias do PDV (Java 8)",
+  "surefire": "2.22.2",
+  "classes": {
+    "CaixaService": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "NotaFiscalItemService": {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "RecebimentoService": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "VendaService": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

@@ -184,11 +184,11 @@ Foram acrescentados testes para eliminar mutantes sobreviventes e cobrir decisõ
 | Classe | Integrante | Testes (Entrega 1 → Entrega 2) | Escore de mutação (Pitest) |
 |---|---|---|---|
 | `VendaService` | Pedro | 28 → 33 | 60/66 (90,9%) |
-| `CaixaService` | Arthur | 22 → 27 | 52/54 (96,3%), registrado no log de IA |
-| `RecebimentoService` | Rodrigo | 21 → 27 | 37/39 (94,9%), registrado no log de IA |
-| `NotaFiscalItemService` | João Paulo | 17 → 17 | 35/37 (94,6%), registrado no log de IA |
+| `CaixaService` | Arthur | 22 → 27 | 52/54 (96,3%) |
+| `RecebimentoService` | Rodrigo | 21 → 27 | 37/39 (94,9%) |
+| `NotaFiscalItemService` | João Paulo | 17 → 17 | 35/37 (94,6%) |
  
-As quatro suítes contêm 104 métodos de teste. Falta publicar uma execução consolidada da versão final.
+As quatro suítes passaram na rodada de referência da Entrega 2, com 104 testes aprovados. Os resultados por classe e os relatórios das ferramentas estão na [execução consolidada dos unitários](pdv/docs/evidencias/unitarios-entrega-2/README.md).
 
 Na validação de VendaService em uma cópia do PDV, os 33 testes passaram. O
 JaCoCo registrou 38 de 38 ramos cobertos (100%), e o PIT matou 60 de 66
@@ -230,7 +230,7 @@ Os testes usam Selenium (JUnit 5) e ficam em
 | `TestE2ERegisterAndLogin` | Cadastro, ativação pela rota da aplicação e login. O fluxo está relacionado ao VU-2. |
 | `TestE2ESecurityRoles` | Restrições de acesso por perfil. |
 
-O U4 tem três cenários de perfil, edição de e-mail e criação de lista e três com a tag `defeito-conhecido`, ligados às issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11). Falta publicar os resultados da execução consolidada e da execução separada do U4.
+O U4 tem três cenários de perfil, edição de e-mail e criação de lista e três com a tag `defeito-conhecido`, ligados às issues [#9](https://github.com/cmrgsPedro/pdv-qa/issues/9), [#10](https://github.com/cmrgsPedro/pdv-qa/issues/10) e [#11](https://github.com/cmrgsPedro/pdv-qa/issues/11). A [execução de referência do Selenium](webapp-1/docs/evidencias/e2e-entrega-2/README.md) registra os nove testes aprovados na seleção da Entrega 2, o erro de ambiente na rodada original com o seletor amplo e o resultado de cada defeito conhecido.
 
  
 ### Como executar os testes E2E
@@ -245,19 +245,22 @@ docker compose up --build
  
 Confirme que <http://localhost:8000> abre o TrackOrJargh.
  
-2. Em outro terminal, rode os testes (requer o Google Chrome instalado):
+2. Em outro terminal, execute as seis classes listadas nas tabelas acima (requer
+   o Google Chrome instalado). O teste legado `TestE2EFront` permanece no
+   repositório e usa um frontend separado em `localhost:4200`. Ele fica fora
+   da seleção da Entrega 2.
 ```sh
 cd pdv-qa/webapp-1/TrackOrJargh
-mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
+mvn test "-Dtest=TestE2EU1VisualizarComentarios,TestE2EU2TrailerMaisAssistido,TestE2EU3PesquisarSeriePorGenero,TestE2EU4EditarPerfil,TestE2ERegisterAndLogin,TestE2ESecurityRoles" "-DexcludedGroups=defeito-conhecido"
 ```
  
 **Sem Chrome instalado**, use um navegador em contêiner:
  
-```sh
-docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome
+```powershell
+docker run -d -p 127.0.0.1:4444:4444 --shm-size=2g selenium/standalone-chrome:3.141.59-20210929
 $env:ET_EUS_API = "http://localhost:4444/wd/hub"
 $env:SUT_URL = "http://host.docker.internal:8000/"
-mvn test "-Dtest=TestE2E*" "-DexcludedGroups=defeito-conhecido"
+mvn test "-Dtest=TestE2EU1VisualizarComentarios,TestE2EU2TrailerMaisAssistido,TestE2EU3PesquisarSeriePorGenero,TestE2EU4EditarPerfil,TestE2ERegisterAndLogin,TestE2ESecurityRoles" "-DexcludedGroups=defeito-conhecido"
 ```
  
  
