@@ -106,6 +106,71 @@ Este arquivo registra o uso de ferramentas de inteligência artificial no trabal
 - **Decisão da equipe:** Matar os mutantes dos `println` por meio de ajustes nos testes e registrar os dois mutantes de `aux` como equivalentes, sem alterar o código de produção apenas para aumentar a métrica. Uma eventual refatoração (substituir o contador por um `boolean` ou por `anyMatch`) eliminaria esses mutantes, mas ficou a critério do grupo.
 - **Validação:** O PIT (`pitest-maven` 1.15.0, já configurado no `pom.xml`) foi executado novamente, restrito a `NotaFiscalItemService` e `NotaFiscalItemServiceTest`: 35 de 37 mutantes mortos (95% de força de teste), com os dois sobreviventes restantes sendo os equivalentes. Como o `mvnw` do módulo `pdv` não possui a pasta `.mvn`, a execução foi feita com uma instalação local do Maven 3.5.2. Comando utilizado: `mvn test-compile org.pitest:pitest-maven:mutationCoverage -DtargetClasses=net.originmobi.pdv.service.notafiscal.NotaFiscalItemService -DtargetTests=net.originmobi.pdv.service.notafiscal.NotaFiscalItemServiceTest`. O relatório é gerado em `pdv/target/pit-reports/`.
 
+## Interação 010 — Configuração de JaCoCo e Pitest
+
+- **Data:** 22/11/2026
+- **Responsável:** Arthur Jardim Antunes Ferreira
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Preparar a medição de cobertura (JaCoCo) e de mutação (Pitest) e corrigir falhas de execução no Windows.
+- **Prompt resumido:** Revisar o `pom.xml` e indicar como medir cobertura e escore de mutação.
+- **Resultado obtido:** JaCoCo 0.8.11 e Pitest 1.15.0 configurados, dependência duplicada removida, Surefire fixado em 2.22.2 (a versão anterior encerrava a JVM com `Tests run: 0`) e `target/` ignorado no Git. A IA atribuiu a falha do Surefire, por engano, ao JDK e depois ao JaCoCo; a causa era a versão do plugin.
+- **Decisão da equipe:** Rodar só as suítes `*ServiceTest`, pois o `PdvApplicationTests` exige MySQL.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 011 — Melhoria do `CaixaServiceTest`
+
+- **Data:** 22/11/2026
+- **Responsável:** Arthur Jardim Antunes Ferreira
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Eliminar mutantes sobreviventes de `CaixaService`.
+- **Prompt resumido:** Avaliar o relatório Pitest e escrever os testes que faltam, sem alterar o código de produção.
+- **Resultado obtido:** 5 testes novos (22 → 27), com `ArgumentCaptor` para conferir os lançamentos. Escore de mutação de 91% para 96% (52 de 54). Os 2 mutantes restantes são equivalentes (`System.out.println`, linhas 73 e 74), a tratar no SonarQube. Defeito achado: `fechaCaixa` com código inexistente lança `NoSuchElementException` sem tratamento.
+- **Decisão da equipe:** Não buscar 100%; documentar os mutantes equivalentes.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 012 — Melhoria do `RecebimentoServiceTest`
+
+- **Data:** 22/11/2026
+- **Responsável:** Rodrigo Lima de Albuquerque
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Reforçar a suíte de `RecebimentoService` a partir dos relatórios Pitest e JaCoCo.
+- **Prompt resumido:** Melhorar a classe de teste para a segunda entrega.
+- **Resultado obtido:** 6 testes novos (21 → 27). Escore de mutação de 85% para 95% (37 de 39). Os 2 sobreviventes são equivalentes (`<` / `<=` na linha 140 e `System.out.println` na 212). A branch `codtitulo == null` (linha 108) é inalcançável por causa do desempacotamento do `Long`. Defeito confirmado por teste: título nulo lança `NullPointerException`. Candidatos a confirmar: comparação de `Long` com `!=` (linha 72) e `Optional.get()` sem verificação.
+- **Decisão da equipe:** Manter os testes existentes, só acrescentar novos; não alterar o código de produção para melhorar métricas.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 013 — Melhoria do `VendaServiceTest`
+
+- **Data:** 09/11/2026
+- **Responsável:** Pedro Campos Camargos
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Eliminar mutantes sobreviventes de `VendaService`.
+- **Prompt resumido:** Melhorar a classe de teste a partir do relatório de mutação.
+- **Resultado obtido:** Partida de 50 de 66 mutantes mortos (76%). 5 testes novos (28 → 33): data de cadastro, forma de pagamento gravada, valor do recebimento gerado, numeração das parcelas a prazo e valor do lançamento em dinheiro. Escore após os testes: a projeção é cerca de 91%. Defeitos achados por leitura de código: desconto e acréscimo passados em ordem trocada a `aprazo` e `avistaDinheiro`, soma de parcelas com `vlParcelas[i]` em vez de `[aux]` e `Optional.get()` sem verificação.
+- **Decisão da equipe:** Os novos testes usam desconto igual a acréscimo para não fixar o comportamento invertido.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 014 — Testes de sistema (Selenium) dos casos manuais
+
+- **Data:** 22/11/2026
+- **Responsável:** Arthur Jardim Antunes Ferreira (infraestrutura e U1), Pedro Campos Camargos (U2), João Paulo Alves da Silveira (U3), Rodrigo Lima de Albuquerque (U4)
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Automatizar com Selenium os casos manuais U1 a U4 no `webapp-1`.
+- **Prompt resumido:** Automatizar os testes manuais do PDF para rodar no `webapp-1`.
+- **Resultado obtido:** Classe base `TestE2EBase` e quatro classes de teste, escritas a partir dos templates e dos dados iniciais da aplicação. Os testes de outro repositório, comparados antes, não correspondiam aos casos manuais. A primeira versão do U4 verificava o comportamento defeituoso do sistema e por isso passava; foi reescrita para verificar o comportamento esperado.
+- **Decisão da equipe:** Passos que falharam no manual (#9 e #11) viram testes separados com a tag `defeito-conhecido`, fora da execução padrão. O #10 (e-mail não persistido) não reproduziu nem na automação nem na reexecução manual e deve ser reavaliado.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
+## Interação 015 — Adicionando testes extras E2E
+
+- **Data:** 22/11/2026
+- **Responsável:** Arthur Jardim Antunes Ferreira
+- **Ferramenta:** Claude (Claude Code)
+- **Atividade:** Adicionar ao `webapp-1` três testes E2E.
+- **Prompt resumido:** Adicionar alguns testes nesse repositório, escolhendo os mais úteis.
+- **Resultado obtido:** `TestE2ESecurityRoles`, `TestE2ERegisterAndLogin`, adaptados à base `TestE2EBase`, com verificações mais fortes. A origem está citada no README e neste registro.
+- **Validação:** Os integrantes revisaram o código dos testes, pediram uma revisão adicional à IA, executaram os testes e conferiram a saída do terminal e os relatórios e acompanharam a execução visualmente.
+
 ## Limites e responsabilidade da equipe
 
 - A IA auxiliou na análise, geração inicial, revisão e diagnóstico, mas não substituiu a conferência do código-fonte nem a execução dos testes.
