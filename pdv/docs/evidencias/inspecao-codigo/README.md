@@ -50,4 +50,4 @@ mvn -B clean test `
 
 A análise inicial usou uma cópia exata do código versionado, sem metadados do Git para o scanner. O scanner usou o JDK 21 local depois que a inicialização do JRE baixado automaticamente falhou. O módulo manteve o alvo Java 8 configurado no `pom.xml`.
 
-Após integrar os PRs, confirmar o resultado na `master` com o mesmo projeto e perfil de regras. Acrescentar o link do relatório editável no README principal.
+O SHA-256 do diff analisado corresponde às alterações de `pdv/src` integradas no commit [e50eb20](https://github.com/cmrgsPedro/pdv-qa/commit/e50eb20cd889cc0ad217e428ecabd3c05744d3db). O relatório editável também está disponível no [Google Docs](https://docs.google.com/document/d/1UVk8fbsfFbt95i4F1Qch-OXy8_zAQ5tCQZ_3Y6c06kA/edit?usp=drivesdk) e como [DOCX](../../../../docs/entrega-2/Relatorio-de-Inspecao-PDV.docx).
