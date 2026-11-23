@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Webapp-1 — Integração de filmes",
-    "description": "Execute a coleção inteira contra o Webapp-1 local com MySQL. Cada execução usa um filme próprio e verifica cadastro, persistência, rejeição de duplicidade e remoção.",
+    "description": "Execute a coleção inteira contra o Webapp-1 local com MySQL. Cada execução usa um filme próprio e verifica cadastro, duplicidade, atualização, busca paginada e remoção.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -108,6 +108,7 @@
               "    pm.expect(filme.id).to.eql(id);",
               "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
               "    pm.expect(filme.synopsis).to.eql('Sinopse original do teste de integração');",
+              "    pm.expect(filme.year).to.eql(2020);",
               "});"
             ]
           }
@@ -254,22 +255,197 @@
       "response": []
     },
     {
-      "name": "INT-03 · Remover filme de teste",
+      "name": "INT-04 · Atualizar filme",
       "event": [
         {
-          "listen": "prerequest",
+          "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const nome = pm.collectionVariables.get('film_name');",
-              "const id = pm.collectionVariables.get('film_id');",
-              "if (typeof nome !== 'string' || !nome.startsWith('qa-postman-') || !Number.isInteger(id) || id < 1) {",
-              "    console.warn('Remoção ignorada porque o cadastro desta execução não foi confirmado.');",
-              "    pm.execution.skipRequest();",
-              "}"
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A atualização retorna o mesmo filme com novos dados\", function () {",
+              "    const filme = pm.response.json();",
+              "    const id = pm.collectionVariables.get('film_id');",
+              "    pm.expect(id, 'ID capturado no cadastro').to.be.a('number').and.above(0);",
+              "    pm.expect(filme.id).to.eql(id);",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(filme.synopsis).to.eql(\"Sinopse atualizada pelo teste de integração\");",
+              "    pm.expect(filme.year).to.eql(2024);",
+              "});"
             ]
           }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{admin_user}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{admin_password}}",
+              "type": "string"
+            }
+          ]
         },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "Atualiza sinopse e ano do filme criado nesta execução, preservando nome e ID.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{film_name}}\",\n  \"synopsis\": \"Sinopse atualizada pelo teste de integração\",\n  \"year\": 2024,\n  \"genders\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "INT-04 · Confirmar atualização persistida",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Sinopse e ano atualizados aparecem em nova consulta\", function () {",
+              "    const filme = pm.response.json();",
+              "    const id = pm.collectionVariables.get('film_id');",
+              "    pm.expect(id, 'ID capturado no cadastro').to.be.a('number').and.above(0);",
+              "    pm.expect(filme.id).to.eql(id);",
+              "    pm.expect(filme.name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(filme.synopsis).to.eql(\"Sinopse atualizada pelo teste de integração\");",
+              "    pm.expect(filme.year).to.eql(2024);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/peliculas/{{film_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "peliculas",
+            "{{film_name}}"
+          ]
+        },
+        "description": "Lê o filme novamente para verificar que a atualização persistiu no MySQL."
+      },
+      "response": []
+    },
+    {
+      "name": "INT-05 · Buscar filme por título",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A primeira página contém somente o filme atualizado\", function () {",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.number).to.eql(0);",
+              "    pm.expect(pagina.size).to.eql(1);",
+              "    pm.expect(pagina.totalElements).to.eql(1);",
+              "    pm.expect(pagina.content).to.have.lengthOf(1);",
+              "    pm.expect(pagina.content[0].id).to.eql(pm.collectionVariables.get('film_id'));",
+              "    pm.expect(pagina.content[0].name).to.eql(pm.collectionVariables.get('film_name'));",
+              "    pm.expect(pagina.content[0].year).to.eql(2024);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/busqueda/titulo/peliculas/{{film_name}}/page?page=0&size=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "busqueda",
+            "titulo",
+            "peliculas",
+            "{{film_name}}",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Confirma que a busca paginada encontra o filme desta execução e retorna a versão atualizada."
+      },
+      "response": []
+    },
+    {
+      "name": "INT-03 · Remover filme de teste",
+      "event": [
         {
           "listen": "test",
           "script": {
@@ -365,6 +541,65 @@
         "description": "A consulta ao filme removido deve retornar 404."
       },
       "response": []
+    },
+    {
+      "name": "INT-05 · Confirmar busca vazia após remoção",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Retorna HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"A busca retorna uma página vazia\", function () {",
+              "    const pagina = pm.response.json();",
+              "    pm.expect(pagina.totalElements).to.eql(0);",
+              "    pm.expect(pagina.content).to.deep.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/busqueda/titulo/peliculas/{{film_name}}/page?page=0&size=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "busqueda",
+            "titulo",
+            "peliculas",
+            "{{film_name}}",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Confirma que a mesma busca paginada deixa de encontrar o filme após a remoção."
+      },
+      "response": []
     }
   ],
   "event": [
@@ -374,7 +609,14 @@
         "type": "text/javascript",
         "exec": [
           "const nome = pm.collectionVariables.get('film_name');",
-          "if (nome) pm.variables.set('film_name', nome);"
+          "if (nome) pm.variables.set('film_name', nome);",
+          "if (pm.request.method === 'PUT' || pm.request.method === 'DELETE') {",
+          "    const id = pm.collectionVariables.get('film_id');",
+          "    if (typeof nome !== 'string' || !nome.startsWith('qa-postman-') || !Number.isInteger(id) || id < 1) {",
+          "        console.warn('Requisição ignorada porque o cadastro do filme de teste não foi confirmado.');",
+          "        pm.execution.skipRequest();",
+          "    }",
+          "}"
         ]
       }
     }

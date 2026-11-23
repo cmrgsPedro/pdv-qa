@@ -249,9 +249,15 @@ No PowerShell, defina as variáveis com `$env:ET_EUS_API = "http://localhost:444
  
 ## Testes de integração
  
-A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose. Ela
-verifica o cadastro em uma consulta separada, a preservação dos dados após uma
-tentativa de duplicidade e a remoção do registro de teste.
+A coleção exercita a API de filmes do Webapp-1 com o MySQL do Docker Compose.
+
+| Caso | O que verifica |
+| --- | --- |
+| INT-01 | Cadastro e leitura dos dados persistidos em uma nova consulta. |
+| INT-02 | Rejeição de duplicidade com preservação do cadastro original. |
+| INT-03 | Remoção do registro criado e retorno de HTTP 404 na consulta posterior. |
+| INT-04 | Atualização de sinopse e ano, com leitura posterior dos dados alterados. |
+| INT-05 | Busca paginada pelo título encontra o filme atualizado e fica vazia após a remoção. |
 
 - [Coleção Postman](webapp-1/postman/webapp-1-integration.postman_collection.json)
 - [Ambiente local de exemplo](webapp-1/postman/webapp-1-local.postman_environment.json)
@@ -268,13 +274,13 @@ tentativa de duplicidade e a remoção do registro de teste.
    `admin_user` e `admin_password` com uma conta administradora do Webapp-1
    no ambiente local de testes.
 3. Execute a coleção inteira com **Run collection**. A sequência HTTP esperada é
-   `200, 200, 226, 200, 200, 404`. A coleção cria um filme com nome
+   `200, 200, 226, 200, 200, 200, 200, 200, 404, 200`. A coleção cria um filme com nome
    `qa-postman-<id>` e remove esse filme ao final.
 
 Se a execução for interrompida após o cadastro, use o valor de `film_name` para
 localizar e remover somente o filme dessa execução no ambiente local.
 
-Nas duas execuções registradas, a API respondeu com HTTP `500` na remoção,
+Nas duas execuções registradas, passaram 16 das 18 verificações. A API respondeu com HTTP `500` na remoção,
 embora a consulta posterior tenha retornado `404`. O log indica falha ao
 serializar a resposta depois da exclusão. A coleção registra a divergência
 como falha e mantém `200` como resultado esperado para o `DELETE`.

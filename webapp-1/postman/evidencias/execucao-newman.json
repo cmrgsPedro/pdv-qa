@@ -10,14 +10,14 @@
   "resultados": [
     {
       "execucao": 1,
-      "data": "2026-11-23T00:44:55.542Z",
+      "data": "2026-11-23T00:54:33.646Z",
       "requisicoes": {
-        "total": 6,
+        "total": 10,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 10,
+        "total": 18,
         "pending": 0,
         "failed": 2
       },
@@ -28,7 +28,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 25"
+          "detalhe": "expected undefined to deeply equal 29"
         }
       ],
       "casos": [
@@ -85,6 +85,48 @@
           ]
         },
         {
+          "caso": "INT-04 · Atualizar filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A atualização retorna o mesmo filme com novos dados",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-04 · Confirmar atualização persistida",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "Sinopse e ano atualizados aparecem em nova consulta",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-05 · Buscar filme por título",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A primeira página contém somente o filme atualizado",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -96,7 +138,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 25"
+              "detalhe": "expected undefined to deeply equal 29"
             }
           ]
         },
@@ -106,6 +148,20 @@
           "verificacoes": [
             {
               "nome": "Retorna HTTP 404",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-05 · Confirmar busca vazia após remoção",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A busca retorna uma página vazia",
               "passou": true
             }
           ]
@@ -114,14 +170,14 @@
     },
     {
       "execucao": 2,
-      "data": "2026-11-23T00:44:55.900Z",
+      "data": "2026-11-23T00:54:34.088Z",
       "requisicoes": {
-        "total": 6,
+        "total": 10,
         "pending": 0,
         "failed": 0
       },
       "verificacoes": {
-        "total": 10,
+        "total": 18,
         "pending": 0,
         "failed": 2
       },
@@ -132,7 +188,7 @@
         },
         {
           "caso": "INT-03 · Remover filme de teste",
-          "detalhe": "expected undefined to deeply equal 26"
+          "detalhe": "expected undefined to deeply equal 30"
         }
       ],
       "casos": [
@@ -189,6 +245,48 @@
           ]
         },
         {
+          "caso": "INT-04 · Atualizar filme",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A atualização retorna o mesmo filme com novos dados",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-04 · Confirmar atualização persistida",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "Sinopse e ano atualizados aparecem em nova consulta",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-05 · Buscar filme por título",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A primeira página contém somente o filme atualizado",
+              "passou": true
+            }
+          ]
+        },
+        {
           "caso": "INT-03 · Remover filme de teste",
           "statusHttp": 500,
           "verificacoes": [
@@ -200,7 +298,7 @@
             {
               "nome": "O filme removido é o que foi criado por esta execução",
               "passou": false,
-              "detalhe": "expected undefined to deeply equal 26"
+              "detalhe": "expected undefined to deeply equal 30"
             }
           ]
         },
@@ -210,6 +308,20 @@
           "verificacoes": [
             {
               "nome": "Retorna HTTP 404",
+              "passou": true
+            }
+          ]
+        },
+        {
+          "caso": "INT-05 · Confirmar busca vazia após remoção",
+          "statusHttp": 200,
+          "verificacoes": [
+            {
+              "nome": "Retorna HTTP 200",
+              "passou": true
+            },
+            {
+              "nome": "A busca retorna uma página vazia",
               "passou": true
             }
           ]
