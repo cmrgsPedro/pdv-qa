@@ -1,6 +1,7 @@
 package net.originmobi.pdv.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -21,15 +22,20 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import net.originmobi.pdv.controller.TituloService;
 import net.originmobi.pdv.enumerado.TituloTipo;
+import net.originmobi.pdv.enumerado.caixa.EstiloLancamento;
+import net.originmobi.pdv.enumerado.caixa.TipoLancamento;
 import net.originmobi.pdv.model.Caixa;
+import net.originmobi.pdv.model.CaixaLancamento;
 import net.originmobi.pdv.model.Parcela;
 import net.originmobi.pdv.model.Pessoa;
 import net.originmobi.pdv.model.Receber;
@@ -282,6 +288,99 @@ public class RecebimentoServiceTest {
         doThrow(new RuntimeException("falha")).when(recebimentos).deleteById(1L);
 
         expect("Erro ao remover orçamento, chame o suporte", () -> service.remover(1L));
+    }
+
+    // ---- Testes adicionados na Entrega 2 (mutantes sobreviventes do Pitest) ----
+
+    // Mata o mutante da linha 78 (soma trocada por subtração): o teste original só conferia o código retornado.
+    @Test
+    public void gravaTotalClienteEParcelasAoAbrirRecebimento() {
+        Parcela primeira = parcela(10L, 30.0, 0, pessoa);
+        Parcela segunda = parcela(11L, 20.0, 0, pessoa);
+        when(parcelas.busca(10L)).thenReturn(primeira);
+        when(parcelas.busca(11L)).thenReturn(segunda);
+        when(pessoas.buscaPessoa(1L)).thenReturn(Optional.of(pessoa));
+        doAnswer(invocation -> {
+            Recebimento salvo = invocation.getArgument(0);
+            salvo.setCodigo(99L);
+            return salvo;
+        }).when(recebimentos).save(any(Recebimento.class));
+
+        service.abrirRecebimento(1L, new String[] {"10", "11"});
+
+        ArgumentCaptor<Recebimento> captor = ArgumentCaptor.forClass(Recebimento.class);
+        verify(recebimentos).save(captor.capture());
+        Recebimento salvo = captor.getValue();
+        assertEquals(Double.valueOf(50.0), salvo.getValor_total());
+        assertSame(pessoa, salvo.getPessoa());
+        assertEquals(Arrays.asList(primeira, segunda), salvo.getParcela());
+        assertNotNull(salvo.getData_cadastro());
+    }
+
+    // Mata o mutante da linha 115 (remoção de setTitulo).
+    @Test
+    public void vinculaTituloAoRecebimento() {
+        Recebimento recebimento = recebimento(100.0);
+        Titulo titulo = titulo(TituloTipo.CARTDEB);
+        prepararReceber(recebimento, titulo, Collections.singletonList(parcela(10L, 100.0, 0, pessoa)));
+
+        service.receber(1L, 50.0, 0.0, 0.0, 1L);
+
+        assertSame(titulo, recebimento.getTitulo());
+    }
+
+    // Mata o mutante da linha 121 (limite > trocado por >=): valor igual ao total deve ser aceito.
+    @Test
+    public void aceitaValorRecebidoIgualAoTotal() {
+        Recebimento recebimento = recebimento(100.0);
+        prepararReceber(recebimento, titulo(TituloTipo.DIN), Collections.singletonList(parcela(10L, 100.0, 0, pessoa)));
+        when(caixas.caixaAberto()).thenReturn(Optional.of(new Caixa()));
+
+        assertEquals("Recebimento realizado com sucesso", service.receber(1L, 100.0, 0.0, 0.0, 1L));
+        verify(parcelas).receber(10L, 100.0, 0.0, 0.0);
+        assertEquals(Double.valueOf(100.0), recebimento.getValor_recebido());
+    }
+
+    // Mata o mutante da linha 175 (remoção de setRecebimento) e confere os demais dados do lançamento.
+    @Test
+    public void lancamentoDeCaixaCarregaDadosEVinculoComRecebimento() {
+        Recebimento recebimento = recebimento(100.0);
+        Caixa caixa = new Caixa();
+        prepararReceber(recebimento, titulo(TituloTipo.DIN), Collections.singletonList(parcela(10L, 100.0, 0, pessoa)));
+        when(caixas.caixaAberto()).thenReturn(Optional.of(caixa));
+
+        service.receber(1L, 50.0, 0.0, 0.0, 1L);
+
+        ArgumentCaptor<CaixaLancamento> captor = ArgumentCaptor.forClass(CaixaLancamento.class);
+        verify(lancamentos).lancamento(captor.capture());
+        CaixaLancamento lancamento = captor.getValue();
+        assertEquals("Referente ao recebimento 1", lancamento.getObservacao());
+        assertEquals(Double.valueOf(50.0), lancamento.getValor());
+        assertEquals(TipoLancamento.RECEBIMENTO, lancamento.getTipo());
+        assertEquals(EstiloLancamento.ENTRADA, lancamento.getEstilo());
+        assertSame(usuario, lancamento.getUsuario());
+        assertSame(caixa, lancamento.getCaixa().get());
+        assertSame(recebimento, ReflectionTestUtils.getField(lancamento, "recebimento"));
+    }
+
+    // Recebimento em cartão não deve gerar lançamento no caixa.
+    @Test
+    public void recebimentoEmCartaoNaoLancaNoCaixa() {
+        prepararReceber(recebimento(100.0), titulo(TituloTipo.CARTCRED),
+                Collections.singletonList(parcela(10L, 100.0, 0, pessoa)));
+
+        service.receber(1L, 50.0, 0.0, 0.0, 1L);
+
+        verify(lancamentos, never()).lancamento(any());
+    }
+
+    // Documenta defeito: com código de título nulo, `codtitulo == 0` desempacota o Long e lança
+    // NullPointerException antes de chegar à mensagem "Selecione um título...".
+    @Test(expected = NullPointerException.class)
+    public void codigoDeTituloNuloLancaNullPointer() {
+        when(recebimentos.findById(1L)).thenReturn(Optional.of(recebimento(100.0)));
+
+        service.receber(1L, 10.0, 0.0, 0.0, null);
     }
 
     private void prepararReceber(Recebimento recebimento, Titulo titulo, java.util.List<Parcela> lista) {
